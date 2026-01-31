@@ -2,87 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* 新春主题设计系统 - Spring Festival Theme Design System */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* 主色调 - 克制的红色系 */
+    --background: 30 20% 97%;
+    --foreground: 0 0% 12%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 30 25% 99%;
+    --card-foreground: 0 0% 12%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 30 25% 99%;
+    --popover-foreground: 0 0% 12%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* 新春红 - 沉稳优雅 */
+    --primary: 0 65% 45%;
+    --primary-foreground: 40 30% 96%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* 金色系 */
+    --secondary: 40 60% 50%;
+    --secondary-foreground: 0 0% 12%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 30 15% 92%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* 点缀色 - 淡金 */
+    --accent: 40 45% 88%;
+    --accent-foreground: 0 0% 12%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 30 20% 88%;
+    --input: 30 20% 88%;
+    --ring: 0 65% 45%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* 新春专属颜色 */
+    --spring-red: 0 65% 45%;
+    --spring-red-light: 0 55% 65%;
+    --spring-gold: 40 70% 50%;
+    --spring-gold-light: 42 65% 75%;
+    --spring-cream: 40 30% 96%;
+    --spring-ink: 0 0% 15%;
+    --spring-cloud: 30 20% 94%;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 8%;
+    --foreground: 40 30% 92%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 10%;
+    --card-foreground: 40 30% 92%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 40 30% 92%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 0 55% 50%;
+    --primary-foreground: 40 30% 96%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 40 50% 45%;
+    --secondary-foreground: 40 30% 96%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 40 15% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 40 30% 20%;
+    --accent-foreground: 40 30% 92%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 55% 50%;
+
+    --spring-red: 0 55% 50%;
+    --spring-red-light: 0 45% 60%;
+    --spring-gold: 40 60% 55%;
+    --spring-gold-light: 42 50% 40%;
+    --spring-cream: 40 10% 15%;
+    --spring-ink: 40 30% 92%;
+    --spring-cloud: 0 0% 14%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -101,5 +115,81 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Noto Sans SC', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Serif SC', serif;
+  }
+}
+
+/* 云纹背景图案 */
+@layer utilities {
+  .cloud-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 45c-8.284 0-15-6.716-15-15 0-4.142 1.679-7.893 4.393-10.607C22.107 16.679 25.858 15 30 15c8.284 0 15 6.716 15 15 0 8.284-6.716 15-15 15zm0-5c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10z' fill='%23c9a86c' fill-opacity='0.06' fill-rule='evenodd'/%3E%3C/svg%3E");
+  }
+
+  .bat-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 20c-3 0-6 2-8 5-4-2-9-1-12 2 3 2 5 5 6 8-2 3-3 7-2 10 3-1 6-1 9 0 2 4 5 7 7 8 2-1 5-4 7-8 3-1 6-1 9 0 1-3 0-7-2-10 1-3 3-6 6-8-3-3-8-4-12-2-2-3-5-5-8-5z' fill='%23c9a86c' fill-opacity='0.04' fill-rule='evenodd'/%3E%3C/svg%3E");
+  }
+
+  .wave-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10c12.5-10 12.5 10 25 0s12.5-10 25 0 12.5 10 25 0 12.5-10 25 0' fill='none' stroke='%23c9a86c' stroke-opacity='0.1' stroke-width='1'/%3E%3C/svg%3E");
+  }
+
+  .continuous-pattern {
+    background-image: 
+      url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0L40 20L20 40L0 20L20 0zM20 8L8 20L20 32L32 20L20 8z' fill='%23c9a86c' fill-opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  /* 祥云动画 */
+  @keyframes float-cloud {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    25% { transform: translateY(-5px) translateX(3px); }
+    50% { transform: translateY(-8px) translateX(0); }
+    75% { transform: translateY(-5px) translateX(-3px); }
+  }
+
+  .animate-float {
+    animation: float-cloud 6s ease-in-out infinite;
+  }
+
+  /* 金光闪烁 */
+  @keyframes shimmer {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  /* 摇晃动画（抽签用） */
+  @keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    10% { transform: rotate(-8deg); }
+    20% { transform: rotate(8deg); }
+    30% { transform: rotate(-6deg); }
+    40% { transform: rotate(6deg); }
+    50% { transform: rotate(-4deg); }
+    60% { transform: rotate(4deg); }
+    70% { transform: rotate(-2deg); }
+    80% { transform: rotate(2deg); }
+    90% { transform: rotate(-1deg); }
+  }
+
+  .animate-shake {
+    animation: shake 0.8s ease-in-out;
+  }
+
+  /* 红包掉落动画 */
+  @keyframes drop {
+    0% { transform: translateY(-20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  .animate-drop {
+    animation: drop 0.5s ease-out;
   }
 }
