@@ -32,52 +32,88 @@ function Fortune() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black p-8 relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground p-8 relative overflow-hidden">
       {/* 新春装饰 */}
       <CloudDecoration />
       
       {/* 顶部装饰线条 */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-red-500/40 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+      
+      {/* 底部装饰 */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-secondary/30 to-transparent" />
       
       <div className="relative z-10">
-        <Link to="/" className="inline-block mb-8 text-black underline hover:text-red-600 transition-colors">返回首页</Link>
-        <h1 className="text-4xl font-bold mb-8">抽签</h1>
-
-        <div className="mb-8 p-6 border border-gray-300 rounded-lg bg-gradient-to-br from-red-50 to-yellow-50">
-          {hasDrawn ? (
-            <>
-              <p className="text-lg mb-2">
-                <strong>类型：</strong>
-                <span className={`${fortune.type === '上上签' ? 'text-red-600' : 'text-yellow-600'} font-bold`}>
-                  {fortune.type}
-                </span>
-              </p>
-              <p className="text-xl mb-4"><strong>标题：</strong>{fortune.title}</p>
-              <p className="text-lg whitespace-pre-line leading-relaxed"><strong>签文：</strong>{fortune.content}</p>
-            </>
-          ) : (
-            <p className="text-lg text-gray-600">点击下方按钮开始求签</p>
-          )}
+        {/* 返回链接 */}
+        <Link to="/" className="inline-flex items-center gap-2 mb-8 text-muted-foreground hover:text-primary transition-colors group">
+          <svg className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          返回首页
+        </Link>
+        
+        {/* 标题区域 */}
+        <div className="text-center mb-10 animate-fade-in">
+          <div className="inline-flex items-center gap-3 mb-3">
+            <div className="w-10 h-0.5 bg-gradient-to-r from-transparent to-secondary" />
+            <span className="text-secondary text-sm tracking-widest">新春纳福</span>
+            <div className="w-10 h-0.5 bg-gradient-to-l from-transparent to-secondary" />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground font-serif">新年抽签</h1>
+          <p className="text-muted-foreground mt-2">诚心祈愿，求取新年好运</p>
         </div>
 
-        <button
-          onClick={drawFortune}
-          disabled={isDrawing || hasDrawn}
-          className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
-        >
-          {hasDrawn ? "已求签" : (isDrawing ? "抽签中..." : "求签")}
-        </button>
-        
-        {hasDrawn && (
-          <button
-            onClick={() => {
-              setHasDrawn(false);
-            }}
-            className="ml-4 px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-all duration-200"
-          >
-            重新求签
-          </button>
-        )}
+        <div className="max-w-2xl mx-auto">
+          <div className={`mb-8 p-8 rounded-xl border border-border bg-gradient-to-br from-card via-card to-accent/20 cloud-pattern animate-fade-in ${isDrawing ? 'animate-shake' : ''}`} style={{ animationDelay: '100ms' }}>
+            {hasDrawn ? (
+              <div className="text-center">
+                <div className="inline-block mb-4">
+                  <span className={`text-3xl font-bold font-serif ${fortune.type === '上上签' ? 'text-primary' : 'text-secondary'}`}>
+                    【{fortune.type}】
+                  </span>
+                </div>
+                <h3 className="text-2xl font-bold mb-4 font-serif text-foreground">{fortune.title}</h3>
+                <div className="bg-accent/30 p-6 rounded-lg border border-border">
+                  <p className="text-lg whitespace-pre-line leading-relaxed text-foreground">{fortune.content}</p>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                  <svg className="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                  </svg>
+                </div>
+                <p className="text-lg text-muted-foreground">点击下方按钮开始求签</p>
+              </div>
+            )}
+          </div>
+
+          <div className="flex justify-center gap-4 animate-fade-in" style={{ animationDelay: '200ms' }}>
+            <button
+              onClick={drawFortune}
+              disabled={isDrawing || hasDrawn}
+              className="px-8 py-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium text-lg hover:shadow-lg"
+            >
+              {hasDrawn ? "已求签" : (isDrawing ? "抽签中..." : "🙏 求签")}
+            </button>
+            
+            {hasDrawn && (
+              <button
+                onClick={() => {
+                  setHasDrawn(false);
+                }}
+                className="px-8 py-4 bg-card text-foreground border border-border rounded-xl hover:bg-accent transition-all duration-200 font-medium text-lg"
+              >
+                重新求签
+              </button>
+            )}
+          </div>
+
+          {/* 说明文字 */}
+          <div className="mt-12 text-center text-muted-foreground text-sm animate-fade-in" style={{ animationDelay: '300ms' }}>
+            <p>🧧 诚心祈愿，必有福报 🧧</p>
+          </div>
+        </div>
       </div>
     </div>
   );

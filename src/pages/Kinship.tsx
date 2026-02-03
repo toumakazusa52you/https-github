@@ -15,47 +15,66 @@ function Kinship() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black p-8 relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground p-8 relative overflow-hidden">
       {/* 新春装饰 */}
       <CloudDecoration />
       
       {/* 顶部装饰线条 */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-red-500/40 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+      
+      {/* 底部装饰 */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-secondary/30 to-transparent" />
       
       <div className="relative z-10">
-        <Link to="/" className="inline-block mb-8 text-black underline hover:text-red-600 transition-colors">返回首页</Link>
-        <h1 className="text-4xl font-bold mb-8">亲戚计算器</h1>
+        {/* 返回链接 */}
+        <Link to="/" className="inline-flex items-center gap-2 mb-8 text-muted-foreground hover:text-primary transition-colors group">
+          <svg className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          返回首页
+        </Link>
+        
+        {/* 标题区域 */}
+        <div className="text-center mb-10 animate-fade-in">
+          <div className="inline-flex items-center gap-3 mb-3">
+            <div className="w-10 h-0.5 bg-gradient-to-r from-transparent to-secondary" />
+            <span className="text-secondary text-sm tracking-widest">家族关系</span>
+            <div className="w-10 h-0.5 bg-gradient-to-l from-transparent to-secondary" />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground font-serif">亲戚计算器</h1>
+          <p className="text-muted-foreground mt-2">输入关系链，快速计算亲属称呼</p>
+        </div>
 
-        <div className="max-w-2xl">
-          <div className="mb-8">
+        <div className="max-w-2xl mx-auto">
+          <div className="mb-8 p-6 bg-card rounded-xl border border-border cloud-pattern animate-fade-in" style={{ animationDelay: '100ms' }}>
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="输入关系，如：爸爸的爸爸"
-              className="w-full p-4 border border-black mb-4 focus:outline-none focus:ring-2 focus:ring-red-500/50"
+              className="w-full p-4 border border-border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background"
             />
 
             <button
               onClick={handleCalculate}
-              className="w-full p-4 bg-black text-white font-bold hover:bg-gray-800 transition-colors"
+              className="w-full p-4 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-all duration-200 hover:shadow-lg"
             >
               计算
             </button>
 
             {result && (
-              <div className="mt-4 p-4 border border-black bg-red-50">
-                <p className="text-xl font-bold">结果：{result}</p>
+              <div className="mt-6 p-6 border-l-4 border-primary bg-accent/50 rounded-r-lg animate-fade-in">
+                <p className="text-2xl font-bold font-serif text-primary">结果：{result}</p>
               </div>
             )}
           </div>
 
-          <div className="border border-black p-6">
-            <h2 className="text-2xl font-bold mb-4">使用说明</h2>
+          <div className="border border-border rounded-xl p-6 bg-card bat-pattern animate-fade-in" style={{ animationDelay: '200ms' }}>
+            <h2 className="text-2xl font-bold mb-4 font-serif text-foreground">使用说明</h2>
 
             <div className="mb-6">
-              <h3 className="text-xl font-bold mb-2">适用范围</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm">
+              <h3 className="text-xl font-bold mb-2 font-serif text-foreground">适用范围</h3>
+              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
                 <li>直系亲属：父母、祖父母、曾祖父母、子女、孙子女等</li>
                 <li>兄弟姐妹：哥哥、弟弟、姐姐、妹妹</li>
                 <li>父亲的兄弟姐妹及配偶：伯伯、叔叔、姑姑、伯母、婶婶、姑父</li>
@@ -69,8 +88,8 @@ function Kinship() {
             </div>
 
             <div className="mb-6">
-              <h3 className="text-xl font-bold mb-2">功能特点</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm">
+              <h3 className="text-xl font-bold mb-2 font-serif text-foreground">功能特点</h3>
+              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
                 <li>正向查询：输入关系链，返回称呼（如：爸爸的爸爸 → 爷爷）</li>
                 <li>支持同义词：父亲、爸、爹等都会映射到"爸爸"</li>
                 <li>支持复杂关系：支持多步关系链计算</li>
@@ -78,8 +97,8 @@ function Kinship() {
             </div>
 
             <div>
-              <h3 className="text-xl font-bold mb-2">注意事项</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm">
+              <h3 className="text-xl font-bold mb-2 font-serif text-foreground">注意事项</h3>
+              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
                 <li>方言差异：主要基于普通话标准称呼，收录了一些常见方言（如姥爷、外公）</li>
                 <li>复杂关系：非常复杂的关系可能无法直接计算，需要多步推导</li>
                 <li>性别区分：计算时考虑性别因素（如儿子/女儿）</li>

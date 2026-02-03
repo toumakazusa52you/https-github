@@ -216,30 +216,44 @@ function Dialog() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black p-8 relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground p-8 relative overflow-hidden">
       {/* 新春装饰 */}
       <CloudDecoration />
       
       {/* 顶部装饰线条 */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-red-500/40 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+      
+      {/* 底部装饰 */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-secondary/30 to-transparent" />
       
       <div className="relative z-10">
-        <Link to="/" className="inline-block mb-8 text-black underline hover:text-red-600 transition-colors">返回首页</Link>
+        {/* 返回链接 */}
+        <Link to="/" className="inline-flex items-center gap-2 mb-8 text-muted-foreground hover:text-primary transition-colors group">
+          <svg className="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          返回首页
+        </Link>
 
         <div className="max-w-4xl mx-auto">
-          <header className="text-center mb-8 mt-6">
-            <h1 className="text-4xl font-bold mb-2 text-red-700">春节话术生成器</h1>
-            <p className="text-gray-600 text-lg">应对春节灵魂拷问，一招制敌！</p>
+          <header className="text-center mb-10 animate-fade-in">
+            <div className="inline-flex items-center gap-3 mb-3">
+              <div className="w-10 h-0.5 bg-gradient-to-r from-transparent to-secondary" />
+              <span className="text-secondary text-sm tracking-widest">智慧应对</span>
+              <div className="w-10 h-0.5 bg-gradient-to-l from-transparent to-secondary" />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-2 text-primary font-serif">春节话术生成器</h1>
+            <p className="text-muted-foreground text-lg">应对春节灵魂拷问，一招制敌！</p>
             <div className="flex justify-center mt-4">
-              <div className="w-24 h-1 bg-red-500 rounded-full"></div>
-              <div className="w-8 h-1 bg-yellow-500 rounded-full mx-2"></div>
-              <div className="w-24 h-1 bg-red-500 rounded-full"></div>
+              <div className="w-24 h-0.5 bg-primary rounded-full"></div>
+              <div className="w-8 h-0.5 bg-secondary rounded-full mx-2"></div>
+              <div className="w-24 h-0.5 bg-primary rounded-full"></div>
             </div>
           </header>
 
-          <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-              <span className="bg-red-100 text-red-700 p-2 rounded-lg mr-2">第一步</span>
+          <section className="mb-8 animate-fade-in" style={{ animationDelay: '100ms' }}>
+            <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center font-serif">
+              <span className="bg-primary/10 text-primary p-2 rounded-lg mr-3">第一步</span>
               选择话题分类
             </h2>
             <div className="flex flex-wrap gap-3">
@@ -249,8 +263,8 @@ function Dialog() {
                   onClick={() => handleCategorySelect(category)}
                   className={`px-5 py-3 rounded-lg font-medium transition-all duration-200 ${
                     selectedCategory === category
-                      ? 'bg-red-600 text-white'
-                      : 'bg-white text-gray-800 border border-red-200 hover:bg-red-50'
+                      ? 'bg-primary text-primary-foreground shadow-lg'
+                      : 'bg-card text-foreground border border-border hover:bg-accent hover:border-primary/30'
                   }`}
                 >
                   {category}
@@ -260,9 +274,9 @@ function Dialog() {
           </section>
 
           {isAttitudeVisible && (
-            <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center">
-                <span className="bg-blue-100 text-blue-700 p-2 rounded-lg mr-2">第二步</span>
+            <section className="mb-8 animate-fade-in">
+              <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center font-serif">
+                <span className="bg-secondary/20 text-secondary-foreground p-2 rounded-lg mr-3">第二步</span>
                 选择应对态度
               </h2>
               <div className="flex flex-wrap gap-3">
@@ -272,8 +286,8 @@ function Dialog() {
                     onClick={() => handleAttitudeSelect(attitude)}
                     className={`px-5 py-3 rounded-lg font-medium transition-all duration-200 ${
                       selectedAttitude === attitude
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-white text-gray-800 border border-blue-200 hover:bg-blue-50'
+                        ? 'bg-secondary text-secondary-foreground shadow-lg'
+                        : 'bg-card text-foreground border border-border hover:bg-accent hover:border-secondary/30'
                     }`}
                   >
                     {attitude}
@@ -283,22 +297,22 @@ function Dialog() {
             </section>
           )}
 
-          <section className="mb-8">
-            <div className="bg-white rounded-xl p-6 md:p-8 mb-6 border-l-4 border-red-600 shadow-lg">
+          <section className="mb-8 animate-fade-in" style={{ animationDelay: '200ms' }}>
+            <div className="bg-card rounded-xl p-6 md:p-8 mb-6 border-l-4 border-primary shadow-lg cloud-pattern">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold text-gray-800">
+                <h3 className="text-xl font-bold text-foreground font-serif">
                   {selectedCategory && selectedAttitude
                     ? `${selectedCategory} · ${selectedAttitude}`
                     : "春节应对话术"}
                 </h3>
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-muted-foreground">
                   {selectedCategory && selectedAttitude
                     ? `共 ${getCurrentPhraseList().length} 句话术`
                     : ""}
                 </div>
               </div>
-              <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 min-h-32 flex items-center justify-center">
-                <p className="text-xl text-gray-800 text-center leading-relaxed">
+              <div className="bg-accent/30 p-6 rounded-lg border border-border min-h-32 flex items-center justify-center">
+                <p className="text-xl text-foreground text-center leading-relaxed">
                   {getCurrentPhrase()}
                 </p>
               </div>
@@ -309,8 +323,8 @@ function Dialog() {
                     {getCurrentPhraseList().map((_, index) => (
                       <div
                         key={index}
-                        className={`w-2 h-2 rounded-full ${
-                          index === currentPhraseIndex ? 'bg-red-500' : 'bg-gray-300'
+                        className={`w-2 h-2 rounded-full transition-colors ${
+                          index === currentPhraseIndex ? 'bg-primary' : 'bg-border'
                         }`}
                       ></div>
                     ))}
@@ -325,8 +339,8 @@ function Dialog() {
                 disabled={!selectedCategory || !selectedAttitude}
                 className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center ${
                   selectedCategory && selectedAttitude
-                    ? 'bg-yellow-500 text-gray-800 hover:bg-yellow-600'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-md'
+                    : 'bg-muted text-muted-foreground cursor-not-allowed'
                 }`}
               >
                 换一句
@@ -336,8 +350,8 @@ function Dialog() {
                 disabled={!selectedCategory || !selectedAttitude}
                 className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center ${
                   selectedCategory && selectedAttitude
-                    ? 'bg-green-500 text-white hover:bg-green-600'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md'
+                    : 'bg-muted text-muted-foreground cursor-not-allowed'
                 }`}
               >
                 复制话术
@@ -346,20 +360,20 @@ function Dialog() {
           </section>
 
           {showCopyNotification && (
-            <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-green-100 text-green-800 px-6 py-3 rounded-lg shadow-lg z-50">
+            <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-accent text-foreground px-6 py-3 rounded-lg shadow-lg z-50 border border-primary/20">
               已复制到剪贴板！
             </div>
           )}
 
-          <footer className="mt-12 p-6 bg-white rounded-xl border border-red-100">
-            <h3 className="text-xl font-bold text-gray-800 mb-3">使用说明</h3>
-            <ol className="list-decimal pl-5 text-gray-600 space-y-2">
+          <footer className="mt-12 p-6 bg-card rounded-xl border border-border bat-pattern animate-fade-in" style={{ animationDelay: '300ms' }}>
+            <h3 className="text-xl font-bold text-foreground mb-3 font-serif">使用说明</h3>
+            <ol className="list-decimal pl-5 text-muted-foreground space-y-2">
               <li>从上方选择春节常被问到的话题分类</li>
               <li>选择你想要的应对态度（礼貌敷衍、幽默自黑或发疯回怼）</li>
               <li>系统会显示对应的话术，点击"换一句"可随机切换</li>
               <li>点击"复制话术"可将当前话术复制到剪贴板</li>
             </ol>
-            <div className="mt-6 pt-6 border-t border-gray-200 text-center text-gray-500 text-sm">
+            <div className="mt-6 pt-6 border-t border-border text-center text-muted-foreground text-sm">
               <p>🎉 祝您春节应对自如，过个清净年！</p>
             </div>
           </footer>
