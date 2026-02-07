@@ -3,6 +3,16 @@ import { useState } from 'react';
 import useLedgerStore from '@/hooks/useLedgerStore';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
 
+// 数字格式化函数，将大额数字转换为带单位的格式
+const formatNumber = (num: number): string => {
+  if (num >= 10000) {
+    return (num / 10000).toFixed(1) + '万';
+  } else if (num >= 1000) {
+    return (num / 1000).toFixed(1) + '千';
+  }
+  return num.toString();
+};
+
 function Ledger() {
   const {
     records,
@@ -100,23 +110,23 @@ function Ledger() {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div className="p-3 bg-accent/30 rounded-lg">
                 <p className="text-sm text-muted-foreground">初始金额</p>
-                <p className="text-xl font-bold">¥{initialAmount}</p>
+                <p className="text-xl font-bold">¥{formatNumber(Number(initialAmount))}</p>
               </div>
               <div className="p-3 bg-accent/30 rounded-lg">
                 <p className="text-sm text-muted-foreground">总收入</p>
-                <p className="text-xl font-bold text-green-600">¥{summary.totalIncome}</p>
+                <p className="text-xl font-bold text-green-600">¥{formatNumber(summary.totalIncome)}</p>
               </div>
               <div className="p-3 bg-accent/30 rounded-lg">
                 <p className="text-sm text-muted-foreground">总支出</p>
-                <p className="text-xl font-bold text-red-600">¥{summary.totalExpense}</p>
+                <p className="text-xl font-bold text-red-600">¥{formatNumber(summary.totalExpense)}</p>
               </div>
               <div className="p-3 bg-primary/10 rounded-lg">
                 <p className="text-sm text-muted-foreground">结余（含初始）</p>
-                <p className="text-xl font-bold text-primary">¥{summary.balance}</p>
+                <p className="text-xl font-bold text-primary">¥{formatNumber(summary.balance)}</p>
               </div>
               <div className="p-3 bg-accent/30 rounded-lg">
                 <p className="text-sm text-muted-foreground">盈亏</p>
-                <p className="text-xl font-bold">¥{summary.netBalance}</p>
+                <p className="text-xl font-bold">¥{formatNumber(summary.netBalance)}</p>
               </div>
               <div className="p-3 bg-accent/30 rounded-lg">
                 <p className="text-sm text-muted-foreground">记录数</p>
@@ -138,9 +148,15 @@ function Ledger() {
               <input
                 type="number"
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, ''))}
+                onKeyPress={(e) => {
+                  if (!/[0-9.]/.test(e.key)) {
+                    e.preventDefault();
+                  }
+                }}
                 className="border border-border px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background"
                 placeholder="输入金额"
+                inputMode="decimal"
               />
               <select
                 value={type}
@@ -175,27 +191,32 @@ function Ledger() {
           <div className="bg-card rounded-xl border border-border p-6 wave-pattern animate-fade-in" style={{ animationDelay: '250ms' }}>
             <h2 className="text-2xl font-bold mb-4 font-serif text-foreground">记录列表</h2>
             <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
+              <table className="w-full border-collapse min-w-[640px]">
                 <thead>
                   <tr className="border-b border-border bg-accent/30">
-                    <th className="text-left p-3 font-serif">姓名</th>
-                    <th className="text-left p-3 font-serif">金额</th>
-                    <th className="text-left p-3 font-serif">类型</th>
-                    <th className="text-left p-3 font-serif">时间</th>
-                    <th className="text-left p-3 font-serif">备注</th>
-                    <th className="text-left p-3 font-serif">操作</th>
+                    <th className="text-left p-3 font-serif min-w-[100px]">姓名</th>
+                    <th className="text-left p-3 font-serif min-w-[100px]">金额</th>
+                    <th className="text-left p-3 font-serif min-w-[80px]">类型</th>
+                    <th className="text-left p-3 font-serif min-w-[180px]">时间</th>
+                    <th className="text-left p-3 font-serif min-w-[150px]">备注</th>
+                    <th className="text-left p-3 font-serif min-w-[80px]">操作</th>
                   </tr>
                 </thead>
                 <tbody>
                   {records.map(record => (
                     <tr key={record.id} className="border-b border-border hover:bg-accent/20 transition-colors">
-                      <td className="p-3">{record.name}</td>
-                      <td className={`p-3 font-medium ${record.type === RECORD_TYPE.INCOME ? 'text-green-600' : 'text-red-600'}`}>
-                        ¥{record.amount}
+                      <td className="p-3 truncate max-w-[120px]">{record.name}</td>
+                      <td className={`p-3 font-medium ${record.type === RECORD_TYPE.INCOME ? 'text-green-600' : 'text-red-600'} truncate max-w-[100px]`}>
+                        ¥{formatNumber(record.amount)}
                       </td>
-                      <td className="p-3">{record.type}</td>
-                      <td className="p-3">{record.userProvidedTime ? record.time.toLocaleString() : '-'}</td>
-                      <td className="p-3">{record.note || '-'}</td>
+                      <td className="p-3 truncate max-w-[80px]">{record.type}</td>
+                      <td className="p-3 truncate max-w-[150px] flex items-center gap-2">
+                        <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {record.userProvidedTime ? record.time.toLocaleString() : '-'}
+                      </td>
+                      <td className="p-3 truncate max-w-[150px]">{record.note || '-'}</td>
                       <td className="p-3">
                         <button
                           onClick={() => deleteRecord(record.id)}
@@ -213,11 +234,14 @@ function Ledger() {
           </div>
         </div>
 
-        {/* 右下角署名 */}
-        <div className="absolute bottom-4 right-4 text-right animate-fade-in" style={{ animationDelay: '800ms' }}>
-          <p className="text-muted-foreground text-xs">
-            By 子非余
-          </p>
+        {/* 底部区域 */}
+        <div className="mt-8 pb-4 animate-fade-in" style={{ animationDelay: '800ms' }}>
+          {/* 右下角署名 */}
+          <div className="flex justify-end">
+            <p className="text-muted-foreground text-xs">
+              By 子非余
+            </p>
+          </div>
         </div>
       </div>
     </div>

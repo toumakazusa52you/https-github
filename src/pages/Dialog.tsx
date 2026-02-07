@@ -379,11 +379,14 @@ function Dialog() {
           </footer>
         </div>
 
-        {/* 右下角署名 */}
-        <div className="absolute bottom-4 right-4 text-right animate-fade-in" style={{ animationDelay: '800ms' }}>
-          <p className="text-muted-foreground text-xs">
-            By 子非余
-          </p>
+        {/* 底部区域 */}
+        <div className="mt-8 pb-4 animate-fade-in" style={{ animationDelay: '800ms' }}>
+          {/* 右下角署名 */}
+          <div className="flex justify-end">
+            <p className="text-muted-foreground text-xs">
+              By 子非余
+            </p>
+          </div>
         </div>
       </div>
     </div>

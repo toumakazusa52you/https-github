@@ -14,7 +14,7 @@ function Email() {
   const [showAgreement, setShowAgreement] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] text-foreground p-8 relative overflow-hidden">
+    <div className="min-h-screen bg-[#F8F9FA] text-foreground p-4 sm:p-8 relative overflow-hidden">
       {/* 新春装饰 */}
       <CloudDecoration />
       
@@ -40,12 +40,12 @@ function Email() {
             <span className="text-secondary text-sm tracking-widest">特别的人</span>
             <div className="w-10 h-0.5 bg-gradient-to-l from-transparent to-secondary" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground font-serif">一封匿名信</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground font-serif">一封匿名信</h1>
           <p className="text-muted-foreground mt-2">如果只有一封信 你会写给谁</p>
         </div>
 
         <div className="max-w-2xl mx-auto">
-          <div className="bg-white rounded-xl p-8 shadow-sm animate-fade-in mb-8">
+          <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm animate-fade-in mb-8">
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">收件人</label>
@@ -179,11 +179,14 @@ function Email() {
           </DialogContent>
         </Dialog>
 
-        {/* 右下角署名 */}
-        <div className="absolute bottom-4 right-4 text-right animate-fade-in" style={{ animationDelay: '800ms' }}>
-          <p className="text-muted-foreground text-xs">
-            By 子非余
-          </p>
+        {/* 底部区域 */}
+        <div className="mt-12 pb-4 animate-fade-in" style={{ animationDelay: '800ms' }}>
+          {/* 右下角署名 */}
+          <div className="flex justify-end">
+            <p className="text-muted-foreground text-xs">
+              By 子非余
+            </p>
+          </div>
         </div>
       </div>
     </div>

@@ -91,6 +91,7 @@ function Kinship() {
               <h3 className="text-xl font-bold mb-2 font-serif text-foreground">功能特点</h3>
               <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
                 <li>正向查询：输入关系链，返回称呼（如：爸爸的爸爸 → 爷爷）</li>
+                <li>反向查询：输入称呼，返回关系链（如：爷爷 → 爸爸的爸爸）</li>
                 <li>支持同义词：父亲、爸、爹等都会映射到"爸爸"</li>
                 <li>支持复杂关系：支持多步关系链计算</li>
               </ul>
@@ -108,11 +109,14 @@ function Kinship() {
           </div>
         </div>
 
-        {/* 右下角署名 */}
-        <div className="absolute bottom-4 right-4 text-right animate-fade-in" style={{ animationDelay: '800ms' }}>
-          <p className="text-muted-foreground text-xs">
-            By 子非余
-          </p>
+        {/* 底部区域 */}
+        <div className="mt-12 pb-4 animate-fade-in" style={{ animationDelay: '800ms' }}>
+          {/* 右下角署名 */}
+          <div className="flex justify-end">
+            <p className="text-muted-foreground text-xs">
+              By 子非余
+            </p>
+          </div>
         </div>
       </div>
     </div>

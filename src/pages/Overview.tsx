@@ -47,7 +47,7 @@ const cards = [
 
 function Overview() {
   return (
-    <div className="min-h-screen bg-background text-foreground p-8 relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground p-4 sm:p-8 relative overflow-hidden">
       {/* 新春装饰 */}
       <CloudDecoration />
       
@@ -65,21 +65,21 @@ function Overview() {
             <span className="text-secondary text-sm tracking-widest">马年大吉</span>
             <div className="w-12 h-0.5 bg-gradient-to-l from-transparent to-secondary" />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground font-serif">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground font-serif">
             新春工具集
           </h1>
           <p className="text-muted-foreground mt-3 text-lg">实用工具，助您新春无忧</p>
         </div>
 
         {/* 卡片网格 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           {cards.map((card, index) => {
             const Icon = card.icon;
             return (
               <Link
                 key={card.to}
                 to={card.to}
-                className={`group relative p-8 rounded-xl border border-border bg-card ${card.pattern} overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-primary/30 animate-slide-up`}
+                className={`group relative p-6 sm:p-8 rounded-xl border border-border bg-card ${card.pattern} overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-primary/30 animate-slide-up`}
                 style={{ animationDelay: card.delay }}
               >
                 {/* 悬停光效 */}
@@ -123,18 +123,21 @@ function Overview() {
           })}
         </div>
 
-        {/* 底部祝福语 */}
-        <div className="text-center mt-12 animate-fade-in" style={{ animationDelay: '500ms' }}>
-          <p className="text-muted-foreground text-sm">
-            ✨ 愿新的一年，所求皆所愿，所行化坦途 ✨
-          </p>
-        </div>
+        {/* 底部区域 */}
+        <div className="mt-12 pb-12 animate-fade-in" style={{ animationDelay: '500ms' }}>
+          {/* 底部祝福语 */}
+          <div className="text-center mb-8">
+            <p className="text-muted-foreground text-sm">
+              ✨ 愿新的一年，所求皆所愿，所行化坦途 ✨
+            </p>
+          </div>
 
-        {/* 右下角署名 */}
-        <div className="absolute bottom-4 right-4 text-right animate-fade-in" style={{ animationDelay: '800ms' }}>
-          <p className="text-muted-foreground text-xs">
-            By 子非余
-          </p>
+          {/* 右下角署名 */}
+          <div className="flex justify-end">
+            <p className="text-muted-foreground text-xs">
+              By 子非余
+            </p>
+          </div>
         </div>
       </div>
     </div>
