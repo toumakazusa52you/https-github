@@ -80,7 +80,6 @@ function Overview() {
                 key={card.to}
                 to={card.to}
                 className={`group relative p-6 sm:p-8 rounded-xl border border-border bg-card ${card.pattern} overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-primary/30 animate-slide-up`}
-                style={{ animationDelay: card.delay }}
               >
                 {/* 悬停光效 */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -124,7 +123,7 @@ function Overview() {
         </div>
 
         {/* 底部区域 */}
-        <div className="mt-12 pb-12 animate-fade-in" style={{ animationDelay: '500ms' }}>
+        <div className="mt-12 pb-12 animate-fade-in">
           {/* 底部祝福语 */}
           <div className="text-center mb-8">
             <p className="text-muted-foreground text-sm">

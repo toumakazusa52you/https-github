@@ -63,7 +63,7 @@ function Fortune() {
         </div>
 
         <div className="max-w-2xl mx-auto">
-          <div className={`mb-8 p-8 rounded-xl border border-border bg-gradient-to-br from-card via-card to-accent/20 cloud-pattern animate-fade-in ${isDrawing ? 'animate-shake' : ''}`} style={{ animationDelay: '100ms' }}>
+          <div className={`mb-8 p-8 rounded-xl border border-border bg-gradient-to-br from-card via-card to-accent/20 cloud-pattern animate-fade-in ${isDrawing ? 'animate-shake' : ''}`}>
             {hasDrawn ? (
               <div className="text-center">
                 <div className="inline-block mb-4">
@@ -88,7 +88,7 @@ function Fortune() {
             )}
           </div>
 
-          <div className="flex justify-center gap-4 animate-fade-in" style={{ animationDelay: '200ms' }}>
+          <div className="flex justify-center gap-4 animate-fade-in">
             <button
               onClick={drawFortune}
               disabled={isDrawing || hasDrawn}
@@ -110,12 +110,12 @@ function Fortune() {
           </div>
 
           {/* 说明文字 */}
-        <div className="mt-12 text-center text-muted-foreground text-sm animate-fade-in" style={{ animationDelay: '300ms' }}>
+        <div className="mt-12 text-center text-muted-foreground text-sm animate-fade-in">
           <p>🧧 诚心祈愿，必有福报 🧧</p>
         </div>
 
         {/* 底部区域 */}
-        <div className="mt-6 pb-4 animate-fade-in" style={{ animationDelay: '800ms' }}>
+        <div className="mt-6 pb-4 animate-fade-in">
           {/* 右下角署名 */}
           <div className="flex justify-end">
             <p className="text-muted-foreground text-xs">

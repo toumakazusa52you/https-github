@@ -94,7 +94,7 @@ function Ledger() {
         </div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="mb-8 p-4 bg-card rounded-xl border border-border animate-fade-in" style={{ animationDelay: '100ms' }}>
+          <div className="mb-8 p-4 bg-card rounded-xl border border-border animate-fade-in">
             <h2 className="text-xl font-bold mb-4 font-serif text-foreground">初始金额</h2>
             <input
               type="number"
@@ -105,7 +105,7 @@ function Ledger() {
             />
           </div>
 
-          <div className="mb-8 p-6 bg-card rounded-xl border border-primary/20 cloud-pattern animate-fade-in" style={{ animationDelay: '150ms' }}>
+          <div className="mb-8 p-6 bg-card rounded-xl border border-primary/20 cloud-pattern animate-fade-in">
             <h2 className="text-2xl font-bold mb-4 text-primary font-serif">统计摘要</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div className="p-3 bg-accent/30 rounded-lg">
@@ -135,7 +135,7 @@ function Ledger() {
             </div>
           </div>
 
-          <div className="mb-8 p-6 bg-card rounded-xl border border-border bat-pattern animate-fade-in" style={{ animationDelay: '200ms' }}>
+          <div className="mb-8 p-6 bg-card rounded-xl border border-border bat-pattern animate-fade-in">
             <h2 className="text-2xl font-bold mb-4 font-serif text-foreground">添加记录</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
@@ -188,7 +188,7 @@ function Ledger() {
             </div>
           </div>
 
-          <div className="bg-card rounded-xl border border-border p-6 wave-pattern animate-fade-in" style={{ animationDelay: '250ms' }}>
+          <div className="bg-card rounded-xl border border-border p-6 wave-pattern animate-fade-in">
             <h2 className="text-2xl font-bold mb-4 font-serif text-foreground">记录列表</h2>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse min-w-[640px]">
@@ -235,7 +235,7 @@ function Ledger() {
         </div>
 
         {/* 底部区域 */}
-        <div className="mt-8 pb-4 animate-fade-in" style={{ animationDelay: '800ms' }}>
+        <div className="mt-8 pb-4 animate-fade-in">
           {/* 右下角署名 */}
           <div className="flex justify-end">
             <p className="text-muted-foreground text-xs">

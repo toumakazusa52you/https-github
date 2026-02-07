@@ -180,7 +180,7 @@ function Email() {
         </Dialog>
 
         {/* 底部区域 */}
-        <div className="mt-12 pb-4 animate-fade-in" style={{ animationDelay: '800ms' }}>
+        <div className="mt-12 pb-4 animate-fade-in">
           {/* 右下角署名 */}
           <div className="flex justify-end">
             <p className="text-muted-foreground text-xs">

@@ -46,7 +46,7 @@ function Kinship() {
         </div>
 
         <div className="max-w-2xl mx-auto">
-          <div className="mb-8 p-6 bg-card rounded-xl border border-border cloud-pattern animate-fade-in" style={{ animationDelay: '100ms' }}>
+          <div className="mb-8 p-6 bg-card rounded-xl border border-border cloud-pattern animate-fade-in">
             <input
               type="text"
               value={input}
@@ -69,7 +69,7 @@ function Kinship() {
             )}
           </div>
 
-          <div className="border border-border rounded-xl p-6 bg-card bat-pattern animate-fade-in" style={{ animationDelay: '200ms' }}>
+          <div className="border border-border rounded-xl p-6 bg-card bat-pattern animate-fade-in">
             <h2 className="text-2xl font-bold mb-4 font-serif text-foreground">使用说明</h2>
 
             <div className="mb-6">
@@ -110,7 +110,7 @@ function Kinship() {
         </div>
 
         {/* 底部区域 */}
-        <div className="mt-12 pb-4 animate-fade-in" style={{ animationDelay: '800ms' }}>
+        <div className="mt-12 pb-4 animate-fade-in">
           {/* 右下角署名 */}
           <div className="flex justify-end">
             <p className="text-muted-foreground text-xs">

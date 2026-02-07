@@ -251,7 +251,7 @@ function Dialog() {
             </div>
           </header>
 
-          <section className="mb-8 animate-fade-in" style={{ animationDelay: '100ms' }}>
+          <section className="mb-8 animate-fade-in">
             <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center font-serif">
               <span className="bg-primary/10 text-primary p-2 rounded-lg mr-3">第一步</span>
               选择话题分类
@@ -297,7 +297,7 @@ function Dialog() {
             </section>
           )}
 
-          <section className="mb-8 animate-fade-in" style={{ animationDelay: '200ms' }}>
+          <section className="mb-8 animate-fade-in">
             <div className="bg-card rounded-xl p-6 md:p-8 mb-6 border-l-4 border-primary shadow-lg cloud-pattern">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-bold text-foreground font-serif">
@@ -365,7 +365,7 @@ function Dialog() {
             </div>
           )}
 
-          <footer className="mt-12 p-6 bg-card rounded-xl border border-border bat-pattern animate-fade-in" style={{ animationDelay: '300ms' }}>
+          <footer className="mt-12 p-6 bg-card rounded-xl border border-border bat-pattern animate-fade-in">
             <h3 className="text-xl font-bold text-foreground mb-3 font-serif">使用说明</h3>
             <ol className="list-decimal pl-5 text-muted-foreground space-y-2">
               <li>从上方选择春节常被问到的话题分类</li>
@@ -380,7 +380,7 @@ function Dialog() {
         </div>
 
         {/* 底部区域 */}
-        <div className="mt-8 pb-4 animate-fade-in" style={{ animationDelay: '800ms' }}>
+        <div className="mt-8 pb-4 animate-fade-in">
           {/* 右下角署名 */}
           <div className="flex justify-end">
             <p className="text-muted-foreground text-xs">
