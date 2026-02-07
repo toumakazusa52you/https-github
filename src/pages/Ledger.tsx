@@ -84,64 +84,62 @@ function Ledger() {
         </div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="mb-8 p-4 bg-card rounded-xl border border-border animate-fade-in card-glow-hover" style={{ animationDelay: '100ms' }}>
+          <div className="mb-8 p-4 bg-card rounded-xl border border-border animate-fade-in" style={{ animationDelay: '100ms' }}>
             <h2 className="text-xl font-bold mb-4 font-serif text-foreground">初始金额</h2>
             <input
               type="number"
               value={initialAmount}
               onChange={handleInitialAmountChange}
-              className="border border-border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background input-glow transition-shadow duration-300"
+              className="border border-border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background"
               placeholder="输入初始金额"
             />
           </div>
 
-          <div className="mb-8 p-6 bg-card rounded-xl border border-primary/20 cloud-pattern animate-fade-in glow-shadow" style={{ animationDelay: '150ms' }}>
-            <h2 className="text-2xl font-bold mb-4 gradient-text font-serif">统计摘要</h2>
+          <div className="mb-8 p-6 bg-card rounded-xl border border-primary/20 cloud-pattern animate-fade-in" style={{ animationDelay: '150ms' }}>
+            <h2 className="text-2xl font-bold mb-4 text-primary font-serif">统计摘要</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <div className="p-3 bg-accent/30 rounded-lg card-glow-hover">
-                <p className="text-sm text-muted-foreground">💰 初始金额</p>
-                <p className="text-xl font-bold number-pop">¥{initialAmount}</p>
+              <div className="p-3 bg-accent/30 rounded-lg">
+                <p className="text-sm text-muted-foreground">初始金额</p>
+                <p className="text-xl font-bold">¥{initialAmount}</p>
               </div>
-              <div className="p-3 bg-accent/30 rounded-lg card-glow-hover">
-                <p className="text-sm text-muted-foreground">📈 总收入</p>
-                <p className="text-xl font-bold text-green-600 number-pop">+¥{summary.totalIncome}</p>
+              <div className="p-3 bg-accent/30 rounded-lg">
+                <p className="text-sm text-muted-foreground">总收入</p>
+                <p className="text-xl font-bold text-green-600">¥{summary.totalIncome}</p>
               </div>
-              <div className="p-3 bg-accent/30 rounded-lg card-glow-hover">
-                <p className="text-sm text-muted-foreground">📉 总支出</p>
-                <p className="text-xl font-bold text-red-600 number-pop">-¥{summary.totalExpense}</p>
+              <div className="p-3 bg-accent/30 rounded-lg">
+                <p className="text-sm text-muted-foreground">总支出</p>
+                <p className="text-xl font-bold text-red-600">¥{summary.totalExpense}</p>
               </div>
-              <div className="p-3 bg-primary/10 rounded-lg glow-shadow">
-                <p className="text-sm text-muted-foreground">💎 结余（含初始）</p>
-                <p className="text-xl font-bold gradient-text number-pop">¥{summary.balance}</p>
+              <div className="p-3 bg-primary/10 rounded-lg">
+                <p className="text-sm text-muted-foreground">结余（含初始）</p>
+                <p className="text-xl font-bold text-primary">¥{summary.balance}</p>
               </div>
-              <div className="p-3 bg-accent/30 rounded-lg card-glow-hover">
-                <p className="text-sm text-muted-foreground">📊 盈亏</p>
-                <p className={`text-xl font-bold number-pop ${summary.netBalance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  {summary.netBalance >= 0 ? '+' : ''}¥{summary.netBalance}
-                </p>
+              <div className="p-3 bg-accent/30 rounded-lg">
+                <p className="text-sm text-muted-foreground">盈亏</p>
+                <p className="text-xl font-bold">¥{summary.netBalance}</p>
               </div>
-              <div className="p-3 bg-accent/30 rounded-lg card-glow-hover">
-                <p className="text-sm text-muted-foreground">📝 记录数</p>
-                <p className="text-xl font-bold number-pop">{summary.count}</p>
+              <div className="p-3 bg-accent/30 rounded-lg">
+                <p className="text-sm text-muted-foreground">记录数</p>
+                <p className="text-xl font-bold">{summary.count}</p>
               </div>
             </div>
           </div>
 
-          <div className="mb-8 p-6 bg-card rounded-xl border border-border bat-pattern animate-fade-in card-glow-hover" style={{ animationDelay: '200ms' }}>
-            <h2 className="text-2xl font-bold mb-4 font-serif text-foreground">✏️ 添加记录</h2>
+          <div className="mb-8 p-6 bg-card rounded-xl border border-border bat-pattern animate-fade-in" style={{ animationDelay: '200ms' }}>
+            <h2 className="text-2xl font-bold mb-4 font-serif text-foreground">添加记录</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="border border-border px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background input-glow transition-shadow duration-300"
+                className="border border-border px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background"
                 placeholder="输入姓名"
               />
               <input
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="border border-border px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background input-glow transition-shadow duration-300"
+                className="border border-border px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background"
                 placeholder="输入金额"
               />
               <select
@@ -149,8 +147,8 @@ function Ledger() {
                 onChange={(e) => setType(e.target.value)}
                 className="border border-border px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background"
               >
-                <option value={RECORD_TYPE.INCOME}>📈 收入</option>
-                <option value={RECORD_TYPE.EXPENSE}>📉 支出</option>
+                <option value={RECORD_TYPE.INCOME}>收入</option>
+                <option value={RECORD_TYPE.EXPENSE}>支出</option>
               </select>
               <input
                 type="datetime-local"
@@ -162,52 +160,48 @@ function Ledger() {
                 type="text"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
-                className="border border-border px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background md:col-span-2 input-glow transition-shadow duration-300"
+                className="border border-border px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background md:col-span-2"
                 placeholder="输入备注（可选）"
               />
               <button
                 onClick={handleAdd}
-                className="bg-primary text-primary-foreground px-4 py-3 rounded-lg hover:bg-primary/90 transition-all duration-200 font-medium md:col-span-2 hover:shadow-lg btn-pulse glow-shadow"
+                className="bg-primary text-primary-foreground px-4 py-3 rounded-lg hover:bg-primary/90 transition-all duration-200 font-medium md:col-span-2 hover:shadow-lg"
               >
-                ➕ 添加记录
+                添加记录
               </button>
             </div>
           </div>
 
-          <div className="bg-card rounded-xl border border-border p-6 wave-pattern animate-fade-in card-glow-hover" style={{ animationDelay: '250ms' }}>
-            <h2 className="text-2xl font-bold mb-4 font-serif text-foreground">📋 记录列表</h2>
+          <div className="bg-card rounded-xl border border-border p-6 wave-pattern animate-fade-in" style={{ animationDelay: '250ms' }}>
+            <h2 className="text-2xl font-bold mb-4 font-serif text-foreground">记录列表</h2>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="border-b border-border bg-accent/30">
-                    <th className="text-left p-3 font-serif">👤 姓名</th>
-                    <th className="text-left p-3 font-serif">💰 金额</th>
-                    <th className="text-left p-3 font-serif">📊 类型</th>
-                    <th className="text-left p-3 font-serif">🕐 时间</th>
-                    <th className="text-left p-3 font-serif">📝 备注</th>
-                    <th className="text-left p-3 font-serif">⚙️ 操作</th>
+                    <th className="text-left p-3 font-serif">姓名</th>
+                    <th className="text-left p-3 font-serif">金额</th>
+                    <th className="text-left p-3 font-serif">类型</th>
+                    <th className="text-left p-3 font-serif">时间</th>
+                    <th className="text-left p-3 font-serif">备注</th>
+                    <th className="text-left p-3 font-serif">操作</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {records.map((record, index) => (
-                    <tr key={record.id} className={`border-b border-border hover:bg-accent/20 transition-colors ${index % 2 === 0 ? 'bg-transparent' : 'bg-accent/10'}`}>
+                  {records.map(record => (
+                    <tr key={record.id} className="border-b border-border hover:bg-accent/20 transition-colors">
                       <td className="p-3">{record.name}</td>
                       <td className={`p-3 font-medium ${record.type === RECORD_TYPE.INCOME ? 'text-green-600' : 'text-red-600'}`}>
-                        {record.type === RECORD_TYPE.INCOME ? '↑' : '↓'} ¥{record.amount}
+                        ¥{record.amount}
                       </td>
-                      <td className="p-3">
-                        <span className={`px-2 py-1 rounded-full text-xs ${record.type === RECORD_TYPE.INCOME ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                          {record.type}
-                        </span>
-                      </td>
-                      <td className="p-3 text-muted-foreground">{record.userProvidedTime ? record.time.toLocaleString() : '-'}</td>
-                      <td className="p-3 text-muted-foreground">{record.note || '-'}</td>
+                      <td className="p-3">{record.type}</td>
+                      <td className="p-3">{record.userProvidedTime ? record.time.toLocaleString() : '-'}</td>
+                      <td className="p-3">{record.note || '-'}</td>
                       <td className="p-3">
                         <button
                           onClick={() => deleteRecord(record.id)}
-                          className="bg-destructive text-destructive-foreground px-3 py-1 rounded-lg text-sm hover:bg-destructive/90 transition-colors hover:scale-105 transform"
+                          className="bg-destructive text-destructive-foreground px-3 py-1 rounded-lg text-sm hover:bg-destructive/90 transition-colors"
                         >
-                          🗑️ 删除
+                          删除
                         </button>
                       </td>
                     </tr>
@@ -215,7 +209,7 @@ function Ledger() {
                 </tbody>
               </table>
             </div>
-            {records.length === 0 && <p className="text-muted-foreground mt-4 text-center">暂无记录，快去添加第一笔吧！🧧</p>}
+            {records.length === 0 && <p className="text-muted-foreground mt-4 text-center">暂无记录</p>}
           </div>
         </div>
 

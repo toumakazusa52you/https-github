@@ -14,7 +14,7 @@ function Email() {
   const [showAgreement, setShowAgreement] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] text-foreground p-8 relative overflow-hidden paper-texture">
+    <div className="min-h-screen bg-[#F8F9FA] text-foreground p-8 relative overflow-hidden">
       {/* 新春装饰 */}
       <CloudDecoration />
       
@@ -45,32 +45,29 @@ function Email() {
         </div>
 
         <div className="max-w-2xl mx-auto">
-          <div className="bg-white rounded-xl p-8 shadow-sm animate-fade-in mb-8 card-glow-hover" style={{ background: 'linear-gradient(to bottom, #FFFEF5, #FFF8E7)' }}>
+          <div className="bg-white rounded-xl p-8 shadow-sm animate-fade-in mb-8">
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">💌 收件人</label>
+                <label className="block text-sm font-medium mb-2">收件人</label>
                 <input 
                   type="text" 
-                  className="w-full p-4 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 input-glow transition-shadow duration-300"
+                  className="w-full p-4 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
                   placeholder="请输入你想写信的人"
-                  style={{ fontFamily: "'Noto Serif SC', serif" }}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">📜 主题</label>
+                <label className="block text-sm font-medium mb-2">主题</label>
                 <input 
                   type="text" 
-                  className="w-full p-4 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 input-glow transition-shadow duration-300"
+                  className="w-full p-4 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
                   placeholder="信件主题"
-                  style={{ fontFamily: "'Noto Serif SC', serif" }}
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">✍️ 内容</label>
+                <label className="block text-sm font-medium mb-2">内容</label>
                 <textarea 
-                  className="w-full p-4 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[200px] resize-none input-glow transition-shadow duration-300"
+                  className="w-full p-4 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 min-h-[200px] resize-none"
                   placeholder="在这里写下你的心声..."
-                  style={{ fontFamily: "'Noto Serif SC', serif", lineHeight: '2' }}
                 />
               </div>
             </div>
@@ -103,9 +100,9 @@ function Email() {
           <div className="text-center">
             <button 
               disabled={!agreed}
-              className={`px-8 py-4 rounded-full font-bold transition-all duration-300 ${agreed ? 'bg-primary text-white hover:bg-primary/90 glow-shadow btn-pulse hover:scale-105 transform' : 'bg-muted text-muted-foreground cursor-not-allowed'}`}
+              className={`px-8 py-4 rounded-full font-bold transition-colors ${agreed ? 'bg-primary text-white hover:bg-primary/90' : 'bg-muted text-muted-foreground cursor-not-allowed'}`}
             >
-              ✈️ 发送
+              发送
             </button>
           </div>
         </div>
