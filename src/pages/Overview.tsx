@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
-import { Users, MessageSquare, Wallet, Sparkles } from 'lucide-react';
+import { Users, MessageSquare, Wallet, Sparkles, Mail } from 'lucide-react';
 
 const cards = [
   {
@@ -35,6 +35,14 @@ const cards = [
     pattern: 'continuous-pattern',
     delay: '300ms',
   },
+  {
+    to: '/email',
+    title: '一封匿名信',
+    desc: '如果只有一封信 你会写给谁',
+    icon: Mail,
+    pattern: 'cloud-pattern',
+    delay: '400ms',
+  },
 ];
 
 function Overview() {
@@ -54,7 +62,7 @@ function Overview() {
         <div className="text-center mb-12 animate-fade-in">
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="w-12 h-0.5 bg-gradient-to-r from-transparent to-secondary" />
-            <span className="text-secondary text-sm tracking-widest">蛇年大吉</span>
+            <span className="text-secondary text-sm tracking-widest">马年大吉</span>
             <div className="w-12 h-0.5 bg-gradient-to-l from-transparent to-secondary" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground font-serif">
@@ -118,7 +126,14 @@ function Overview() {
         {/* 底部祝福语 */}
         <div className="text-center mt-12 animate-fade-in" style={{ animationDelay: '500ms' }}>
           <p className="text-muted-foreground text-sm">
-            🧧 恭喜发财，红包拿来 🧧
+            ✨ 愿新的一年，所求皆所愿，所行化坦途 ✨
+          </p>
+        </div>
+
+        {/* 右下角署名 */}
+        <div className="absolute bottom-4 right-4 text-right animate-fade-in" style={{ animationDelay: '800ms' }}>
+          <p className="text-muted-foreground text-xs">
+            By 子非余
           </p>
         </div>
       </div>

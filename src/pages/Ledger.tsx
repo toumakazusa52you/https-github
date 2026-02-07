@@ -212,6 +212,13 @@ function Ledger() {
             {records.length === 0 && <p className="text-muted-foreground mt-4 text-center">暂无记录</p>}
           </div>
         </div>
+
+        {/* 右下角署名 */}
+        <div className="absolute bottom-4 right-4 text-right animate-fade-in" style={{ animationDelay: '800ms' }}>
+          <p className="text-muted-foreground text-xs">
+            By 子非余
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -110,9 +110,16 @@ function Fortune() {
           </div>
 
           {/* 说明文字 */}
-          <div className="mt-12 text-center text-muted-foreground text-sm animate-fade-in" style={{ animationDelay: '300ms' }}>
-            <p>🧧 诚心祈愿，必有福报 🧧</p>
-          </div>
+        <div className="mt-12 text-center text-muted-foreground text-sm animate-fade-in" style={{ animationDelay: '300ms' }}>
+          <p>🧧 诚心祈愿，必有福报 🧧</p>
+        </div>
+
+        {/* 右下角署名 */}
+        <div className="absolute bottom-4 right-4 text-right animate-fade-in" style={{ animationDelay: '800ms' }}>
+          <p className="text-muted-foreground text-xs">
+            By 子非余
+          </p>
+        </div>
         </div>
       </div>
     </div>

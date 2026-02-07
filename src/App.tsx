@@ -8,6 +8,7 @@ import Kinship from "./pages/Kinship";
 import Dialog from "./pages/Dialog";
 import Ledger from "./pages/Ledger";
 import Fortune from "./pages/Fortune";
+import Email from "./pages/Email";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/dialog" element={<Dialog />} />
           <Route path="/ledger" element={<Ledger />} />
           <Route path="/fortune" element={<Fortune />} />
+          <Route path="/email" element={<Email />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
