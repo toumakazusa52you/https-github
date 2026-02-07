@@ -60,42 +60,47 @@ function Overview() {
       <div className="relative z-10 max-w-5xl mx-auto">
         {/* 标题区域 */}
         <div className="text-center mb-12 animate-fade-in">
+          {/* 恭贺新春横幅 */}
+          <div className="inline-block mb-6 px-8 py-2 bg-gradient-to-r from-primary/10 via-primary/20 to-primary/10 rounded-full border border-primary/20 glow-shadow">
+            <span className="gradient-text text-lg font-bold tracking-widest">🏮 恭贺新春 🏮</span>
+          </div>
+          
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="w-12 h-0.5 bg-gradient-to-r from-transparent to-secondary" />
             <span className="text-secondary text-sm tracking-widest">马年大吉</span>
             <div className="w-12 h-0.5 bg-gradient-to-l from-transparent to-secondary" />
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground font-serif">
-            新春工具集
+            <span className="gradient-text">新春工具集</span>
           </h1>
           <p className="text-muted-foreground mt-3 text-lg">实用工具，助您新春无忧</p>
         </div>
 
         {/* 卡片网格 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {cards.map((card, index) => {
+          {cards.map((card) => {
             const Icon = card.icon;
             return (
               <Link
                 key={card.to}
                 to={card.to}
-                className={`group relative p-8 rounded-xl border border-border bg-card ${card.pattern} overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-primary/30 animate-slide-up`}
+                className={`group relative p-8 rounded-xl border border-border bg-card ${card.pattern} overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 hover:border-primary/30 animate-slide-up card-glow-hover`}
                 style={{ animationDelay: card.delay }}
               >
                 {/* 悬停光效 */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 {/* 角落装饰 */}
-                <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden">
-                  <div className="absolute -top-10 -right-10 w-20 h-20 bg-gradient-to-bl from-primary/10 to-transparent rotate-45 group-hover:from-primary/20 transition-colors duration-300" />
+                <div className="absolute top-0 right-0 w-24 h-24 overflow-hidden">
+                  <div className="absolute -top-12 -right-12 w-24 h-24 bg-gradient-to-bl from-primary/15 to-transparent rotate-45 group-hover:from-primary/25 transition-colors duration-300" />
                 </div>
-                <div className="absolute bottom-0 left-0 w-16 h-16 overflow-hidden">
-                  <div className="absolute -bottom-8 -left-8 w-16 h-16 bg-gradient-to-tr from-secondary/10 to-transparent rotate-45 group-hover:from-secondary/20 transition-colors duration-300" />
+                <div className="absolute bottom-0 left-0 w-20 h-20 overflow-hidden">
+                  <div className="absolute -bottom-10 -left-10 w-20 h-20 bg-gradient-to-tr from-secondary/15 to-transparent rotate-45 group-hover:from-secondary/25 transition-colors duration-300" />
                 </div>
 
                 <div className="relative flex items-start gap-5">
                   {/* 图标容器 */}
-                  <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center group-hover:from-primary/20 group-hover:to-secondary/20 transition-colors duration-300 group-hover:scale-110 transform">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center group-hover:from-primary/20 group-hover:to-secondary/20 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 transform">
                     <Icon className="w-8 h-8 text-primary group-hover:text-primary transition-colors" />
                   </div>
                   
@@ -107,9 +112,9 @@ function Overview() {
                     <p className="text-muted-foreground">{card.desc}</p>
                     
                     {/* 进入提示 */}
-                    <div className="mt-4 flex items-center text-sm text-primary/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-x-0 group-hover:translate-x-2">
+                    <div className="mt-4 flex items-center text-sm text-primary/70 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-0 group-hover:translate-x-2">
                       <span>点击进入</span>
-                      <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 ml-1 animate-bounce-gentle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>

@@ -263,10 +263,14 @@ function Dialog() {
                   onClick={() => handleCategorySelect(category)}
                   className={`px-5 py-3 rounded-lg font-medium transition-all duration-200 ${
                     selectedCategory === category
-                      ? 'bg-primary text-primary-foreground shadow-lg'
-                      : 'bg-card text-foreground border border-border hover:bg-accent hover:border-primary/30'
+                      ? 'bg-primary text-primary-foreground shadow-lg glow-shadow'
+                      : 'bg-card text-foreground border border-border hover:bg-accent hover:border-primary/30 card-glow-hover'
                   }`}
                 >
+                  {category === '催婚' && '💑 '}
+                  {category === '工资' && '💰 '}
+                  {category === '学业' && '📚 '}
+                  {category === '熊孩子' && '👶 '}
                   {category}
                 </button>
               ))}
@@ -286,10 +290,13 @@ function Dialog() {
                     onClick={() => handleAttitudeSelect(attitude)}
                     className={`px-5 py-3 rounded-lg font-medium transition-all duration-200 ${
                       selectedAttitude === attitude
-                        ? 'bg-secondary text-secondary-foreground shadow-lg'
-                        : 'bg-card text-foreground border border-border hover:bg-accent hover:border-secondary/30'
+                        ? 'bg-secondary text-secondary-foreground shadow-lg glow-shadow'
+                        : 'bg-card text-foreground border border-border hover:bg-accent hover:border-secondary/30 card-glow-hover'
                     }`}
                   >
+                    {attitude === '礼貌敷衍' && '😊 '}
+                    {attitude === '幽默自黑' && '😂 '}
+                    {attitude === '发疯回怼' && '🔥 '}
                     {attitude}
                   </button>
                 ))}
@@ -298,7 +305,7 @@ function Dialog() {
           )}
 
           <section className="mb-8 animate-fade-in" style={{ animationDelay: '200ms' }}>
-            <div className="bg-card rounded-xl p-6 md:p-8 mb-6 border-l-4 border-primary shadow-lg cloud-pattern">
+            <div className="bg-card rounded-xl p-6 md:p-8 mb-6 border-l-4 border-primary shadow-lg cloud-pattern card-glow-hover">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-xl font-bold text-foreground font-serif">
                   {selectedCategory && selectedAttitude
@@ -311,7 +318,7 @@ function Dialog() {
                     : ""}
                 </div>
               </div>
-              <div className="bg-accent/30 p-6 rounded-lg border border-border min-h-32 flex items-center justify-center">
+              <div className="bg-accent/30 p-6 rounded-lg border border-border min-h-32 flex items-center justify-center paper-texture">
                 <p className="text-xl text-foreground text-center leading-relaxed">
                   {getCurrentPhrase()}
                 </p>
@@ -339,29 +346,29 @@ function Dialog() {
                 disabled={!selectedCategory || !selectedAttitude}
                 className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center ${
                   selectedCategory && selectedAttitude
-                    ? 'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-md'
+                    ? 'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-md btn-pulse'
                     : 'bg-muted text-muted-foreground cursor-not-allowed'
                 }`}
               >
-                换一句
+                🔄 换一句
               </button>
               <button
                 onClick={copyToClipboard}
                 disabled={!selectedCategory || !selectedAttitude}
                 className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center ${
                   selectedCategory && selectedAttitude
-                    ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md'
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md glow-shadow'
                     : 'bg-muted text-muted-foreground cursor-not-allowed'
                 }`}
               >
-                复制话术
+                📋 复制话术
               </button>
             </div>
           </section>
 
           {showCopyNotification && (
-            <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-accent text-foreground px-6 py-3 rounded-lg shadow-lg z-50 border border-primary/20">
-              已复制到剪贴板！
+            <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-accent text-foreground px-6 py-3 rounded-lg shadow-lg z-50 border border-primary/20 glow-shadow animate-fade-in">
+              ✅ 已复制到剪贴板！
             </div>
           )}
 

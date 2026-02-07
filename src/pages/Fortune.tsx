@@ -63,22 +63,22 @@ function Fortune() {
         </div>
 
         <div className="max-w-2xl mx-auto">
-          <div className={`mb-8 p-8 rounded-xl border border-border bg-gradient-to-br from-card via-card to-accent/20 cloud-pattern animate-fade-in ${isDrawing ? 'animate-shake' : ''}`} style={{ animationDelay: '100ms' }}>
+          <div className={`mb-8 p-8 rounded-xl border border-border bg-gradient-to-br from-card via-card to-accent/20 cloud-pattern card-glow-hover ${isDrawing ? 'animate-shake' : ''}`} style={{ animationDelay: '100ms', perspective: '1000px' }}>
             {hasDrawn ? (
-              <div className="text-center">
-                <div className="inline-block mb-4">
-                  <span className={`text-3xl font-bold font-serif ${fortune.type === '上上签' ? 'text-primary' : 'text-secondary'}`}>
+              <div className="text-center result-unfold">
+                <div className="inline-block mb-4 px-6 py-2 rounded-full glow-shadow" style={{ background: fortune.type === '上上签' ? 'linear-gradient(135deg, hsl(var(--primary) / 0.2), hsl(var(--spring-gold) / 0.2))' : 'hsl(var(--accent))' }}>
+                  <span className={`text-3xl font-bold font-serif ${fortune.type === '上上签' ? 'gradient-text' : 'text-secondary'}`}>
                     【{fortune.type}】
                   </span>
                 </div>
                 <h3 className="text-2xl font-bold mb-4 font-serif text-foreground">{fortune.title}</h3>
-                <div className="bg-accent/30 p-6 rounded-lg border border-border">
+                <div className="bg-accent/30 p-6 rounded-lg border border-border paper-texture">
                   <p className="text-lg whitespace-pre-line leading-relaxed text-foreground">{fortune.content}</p>
                 </div>
               </div>
             ) : (
               <div className="text-center py-8">
-                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center animate-float-slow glow-shadow">
                   <svg className="w-12 h-12 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                   </svg>
@@ -92,7 +92,7 @@ function Fortune() {
             <button
               onClick={drawFortune}
               disabled={isDrawing || hasDrawn}
-              className="px-8 py-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium text-lg hover:shadow-lg"
+              className="px-8 py-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium text-lg hover:shadow-lg btn-pulse glow-shadow"
             >
               {hasDrawn ? "已求签" : (isDrawing ? "抽签中..." : "🙏 求签")}
             </button>

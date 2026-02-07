@@ -46,30 +46,30 @@ function Kinship() {
         </div>
 
         <div className="max-w-2xl mx-auto">
-          <div className="mb-8 p-6 bg-card rounded-xl border border-border cloud-pattern animate-fade-in" style={{ animationDelay: '100ms' }}>
+          <div className="mb-8 p-6 bg-card rounded-xl border border-border cloud-pattern animate-fade-in card-glow-hover" style={{ animationDelay: '100ms' }}>
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="输入关系，如：爸爸的爸爸"
-              className="w-full p-4 border border-border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background"
+              className="w-full p-4 border border-border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background input-glow transition-shadow duration-300"
             />
 
             <button
               onClick={handleCalculate}
-              className="w-full p-4 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-all duration-200 hover:shadow-lg"
+              className="w-full p-4 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-all duration-200 hover:shadow-lg btn-pulse"
             >
               计算
             </button>
 
             {result && (
-              <div className="mt-6 p-6 border-l-4 border-primary bg-accent/50 rounded-r-lg animate-fade-in">
-                <p className="text-2xl font-bold font-serif text-primary">结果：{result}</p>
+              <div className="mt-6 p-6 border-l-4 border-primary bg-accent/50 rounded-r-lg result-unfold glow-shadow">
+                <p className="text-2xl font-bold font-serif gradient-text">结果：{result}</p>
               </div>
             )}
           </div>
 
-          <div className="border border-border rounded-xl p-6 bg-card bat-pattern animate-fade-in" style={{ animationDelay: '200ms' }}>
+          <div className="border border-border rounded-xl p-6 bg-card bat-pattern animate-fade-in card-glow-hover" style={{ animationDelay: '200ms' }}>
             <h2 className="text-2xl font-bold mb-4 font-serif text-foreground">使用说明</h2>
 
             <div className="mb-6">
