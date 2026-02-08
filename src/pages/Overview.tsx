@@ -95,7 +95,12 @@ function Overview() {
             onClick={() => {
               setShowAnnouncement(true);
             }}
-            className="absolute top-0 right-0 px-4 py-2 bg-transparent text-black border border-black rounded-lg hover:bg-black/10 transition-all duration-200 font-medium text-sm hover:shadow-lg"
+            className="absolute top-0 right-0 px-4 py-2 bg-transparent text-black rounded-2xl hover:bg-black/10 transition-all duration-200 font-medium text-sm hover:shadow-lg antialiased subpixel-antialiased"
+            style={{
+              WebkitFontSmoothing: 'antialiased',
+              MozOsxFontSmoothing: 'grayscale',
+              boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, 1)'
+            }}
             title="查看公告"
           >
             公告
