@@ -3,24 +3,28 @@ import { Link } from 'react-router-dom';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
 
 const fortuneData = [
-  { type: "上上签", title: "天赐良缘", content: "喜鹊登枝报佳音，天赐良缘福满门。家和万事皆如意，喜气盈庭庆新春。" },
-  { type: "上上签", title: "金玉满堂", content: "金玉满堂福寿长，财源广进达三江。吉星高照平安宅，瑞气盈门富贵昌。" },
-  { type: "上上签", title: "龙腾四海", content: "龙腾四海展宏图，凤舞九天庆有余。吉日良时添福寿，春风得意乐安居。" },
-  { type: "大吉", title: "吉祥如意", content: "吉祥如意福星照，瑞气临门好运交。心想事成多喜乐，家庭和睦乐逍遥。" },
-  { type: "上上签", title: "福寿双全", content: "福如东海长流水，寿比南山不老松。双喜临门多吉庆，全家欢乐乐融融。" },
-  { type: "大吉", title: "财源广进", content: "财源广进似春潮，生意兴隆步步高。吉人自有天相佑，福禄双全乐陶陶。" },
-  { type: "上上签", title: "鸿运当头", content: "鸿运当头照四方，吉星高照福满堂。前程似锦多顺利，步步高升事业强。" },
-  { type: "大吉", title: "喜气盈门", content: "喜气盈门福满庭，吉星高照好运迎。春风得意人欢笑，四季平安万事兴。" },
-  { type: "上上签", title: "五福临门", content: "五福临门喜气扬，吉星高照福安康。家庭和睦多欢乐，事业顺利永吉祥。" },
-  { type: "大吉", title: "万事亨通", content: "万事亨通如意来，吉星高照福门开。春风得意人欢笑，步步登高上瑶台。" }
+  { type: "上上签", title: "脱单有望", content: "桃花运爆棚，脱单有望！新的一年，爱情事业双丰收，单身狗要翻身啦！" },
+  { type: "上上签", title: "暴富预定", content: "钱包鼓鼓！今年暴富预定，数钱数到手软，躺平也能赢！" },
+  { type: "上上签", title: "升职加薪", content: "事业起飞，升职加薪！老板器重你，同事羡慕你，打工人的春天来啦！" },
+  { type: "大吉", title: "欧气爆棚", content: "万事顺遂，烦恼拜拜！想啥来啥，许啥中啥，欧气爆棚的一年！" },
+  { type: "上上签", title: "发际线稳", content: "身体健康，吃嘛嘛香！熬夜不秃头，脱发不焦虑，发际线稳如泰山！" },
+  { type: "大吉", title: "财富自由", content: "副业搞起，睡后收入！搞钱小能手，理财小天才，早日实现财富自由！" },
+  { type: "上上签", title: "欧皇就是你", content: "运气爆棚，锦鲤附体！抽奖必中，考试必过，游戏必赢，欧皇就是你！" },
+  { type: "大吉", title: "烦恼清零", content: "快乐加倍，烦恼清零！每天笑嘻嘻，心情美滋滋，快乐常驻人间！" },
+  { type: "上上签", title: "好运连连", content: "好运连连，喜事连连！好事成双，烦恼成对，今年就是你的主场！" },
+  { type: "大吉", title: "愿望成真", content: "心想事成，所愿皆得！许下的愿望都实现，吹过的牛皮都成真，梦想照进现实！" }
 ];
 
 function Fortune() {
   const [fortune, setFortune] = useState(fortuneData[0]);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [hasDrawn, setHasDrawn] = useState(false);
+  const [hasDrawn, setHasDrawn] = useState(() => {
+    return localStorage.getItem('fortuneDrawn') === 'true';
+  });
 
   const drawFortune = () => {
+    if (hasDrawn) return;
+    
     setIsDrawing(true);
 
     setTimeout(() => {
@@ -28,6 +32,7 @@ function Fortune() {
       setFortune(fortuneData[randomIndex]);
       setIsDrawing(false);
       setHasDrawn(true);
+      localStorage.setItem('fortuneDrawn', 'true');
     }, 800);
   };
 
@@ -94,24 +99,13 @@ function Fortune() {
               disabled={isDrawing || hasDrawn}
               className="px-8 py-4 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium text-lg hover:shadow-lg"
             >
-              {hasDrawn ? "已求签" : (isDrawing ? "抽签中..." : "🙏 求签")}
+              {hasDrawn ? "已求签" : (isDrawing ? "抽签中..." : "开始求签")}
             </button>
-            
-            {hasDrawn && (
-              <button
-                onClick={() => {
-                  setHasDrawn(false);
-                }}
-                className="px-8 py-4 bg-card text-foreground border border-border rounded-xl hover:bg-accent transition-all duration-200 font-medium text-lg"
-              >
-                重新求签
-              </button>
-            )}
           </div>
 
           {/* 说明文字 */}
         <div className="mt-12 text-center text-muted-foreground text-sm animate-fade-in">
-          <p>🧧 诚心祈愿，必有福报 🧧</p>
+          <p>诚心祈愿，必有福报</p>
         </div>
 
         {/* 底部区域 */}

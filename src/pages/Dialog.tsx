@@ -374,7 +374,7 @@ function Dialog() {
               <li>点击"复制话术"可将当前话术复制到剪贴板</li>
             </ol>
             <div className="mt-6 pt-6 border-t border-border text-center text-muted-foreground text-sm">
-              <p>🎉 祝您春节应对自如，过个清净年！</p>
+              <p>祝您春节应对自如，过个清净年！</p>
             </div>
           </footer>
         </div>

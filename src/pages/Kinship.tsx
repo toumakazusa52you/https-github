@@ -14,6 +14,11 @@ function Kinship() {
     setResult(relationship);
   };
 
+  const handleReset = () => {
+    setInput('');
+    setResult('');
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground p-8 relative overflow-hidden">
       {/* 新春装饰 */}
@@ -55,12 +60,21 @@ function Kinship() {
               className="w-full p-4 border border-border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background"
             />
 
-            <button
-              onClick={handleCalculate}
-              className="w-full p-4 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-all duration-200 hover:shadow-lg"
-            >
-              计算
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={handleCalculate}
+                className="flex-1 p-4 bg-primary text-primary-foreground font-bold rounded-lg hover:bg-primary/90 transition-all duration-200 hover:shadow-lg"
+              >
+                计算
+              </button>
+              <button
+                onClick={handleReset}
+                className="p-4 bg-accent/50 text-foreground font-bold rounded-lg hover:bg-accent transition-all duration-200 hover:shadow-lg"
+                title="重置"
+              >
+                ×
+              </button>
+            </div>
 
             {result && (
               <div className="mt-6 p-6 border-l-4 border-primary bg-accent/50 rounded-r-lg animate-fade-in">
@@ -71,6 +85,16 @@ function Kinship() {
 
           <div className="border border-border rounded-xl p-6 bg-card bat-pattern animate-fade-in">
             <h2 className="text-2xl font-bold mb-4 font-serif text-foreground">使用说明</h2>
+
+            <div className="mb-6">
+              <h3 className="text-xl font-bold mb-2 font-serif text-foreground">功能特点</h3>
+              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                <li>正向查询：输入关系链，返回称呼（如：爸爸的爸爸 → 爷爷）</li>
+                <li className="text-green-600">反向查询：输入关系链，返回称呼（如：爷爷的儿子 → 爸爸）</li>
+                <li>支持同义词：父亲、爸、爹等都会映射到"爸爸"</li>
+                <li>支持复杂关系：支持多步关系链计算</li>
+              </ul>
+            </div>
 
             <div className="mb-6">
               <h3 className="text-xl font-bold mb-2 font-serif text-foreground">适用范围</h3>
@@ -84,16 +108,6 @@ function Kinship() {
                 <li>侄辈甥辈：侄子、侄女、外甥、外甥女</li>
                 <li>姻亲：岳父、岳母、公公、婆婆、女婿、儿媳、嫂子、弟媳、姐夫、妹夫等</li>
                 <li>其他远亲：伯祖父、叔祖父、姑祖母、舅公、姨婆等</li>
-              </ul>
-            </div>
-
-            <div className="mb-6">
-              <h3 className="text-xl font-bold mb-2 font-serif text-foreground">功能特点</h3>
-              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                <li>正向查询：输入关系链，返回称呼（如：爸爸的爸爸 → 爷爷）</li>
-                <li>反向查询：输入称呼，返回关系链（如：爷爷 → 爸爸的爸爸）</li>
-                <li>支持同义词：父亲、爸、爹等都会映射到"爸爸"</li>
-                <li>支持复杂关系：支持多步关系链计算</li>
               </ul>
             </div>
 

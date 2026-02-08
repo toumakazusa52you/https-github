@@ -1,6 +1,13 @@
 import { Link } from 'react-router-dom';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
 import { Users, MessageSquare, Wallet, Sparkles, Mail } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const cards = [
   {
@@ -46,6 +53,19 @@ const cards = [
 ];
 
 function Overview() {
+  // 首次进入网站时显示公告，使用sessionStorage确保同一会话中只显示一次
+  const [showAnnouncement, setShowAnnouncement] = useState(() => {
+    const hasSeenAnnouncement = sessionStorage.getItem('hasSeenAnnouncement');
+    return !hasSeenAnnouncement;
+  });
+
+  // 标记公告已查看
+  useEffect(() => {
+    if (showAnnouncement) {
+      sessionStorage.setItem('hasSeenAnnouncement', 'true');
+    }
+  }, [showAnnouncement]);
+
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-8 relative overflow-hidden">
       {/* 新春装饰 */}
@@ -69,6 +89,17 @@ function Overview() {
             新春工具集
           </h1>
           <p className="text-muted-foreground mt-3 text-lg">实用工具，助您新春无忧</p>
+          
+          {/* 公告按钮 */}
+          <button
+            onClick={() => {
+              setShowAnnouncement(true);
+            }}
+            className="absolute top-0 right-0 px-4 py-2 bg-transparent text-black border border-black rounded-lg hover:bg-black/10 transition-all duration-200 font-medium text-sm hover:shadow-lg"
+            title="查看公告"
+          >
+            公告
+          </button>
         </div>
 
         {/* 卡片网格 */}
@@ -127,7 +158,7 @@ function Overview() {
           {/* 底部祝福语 */}
           <div className="text-center mb-8">
             <p className="text-muted-foreground text-sm">
-              ✨ 愿新的一年，所求皆所愿，所行化坦途 ✨
+              愿新的一年，所求皆所愿，所行化坦途
             </p>
           </div>
 
@@ -139,6 +170,68 @@ function Overview() {
           </div>
         </div>
       </div>
+
+      {/* 公告弹窗 */}
+      <Dialog open={showAnnouncement} onOpenChange={setShowAnnouncement}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-primary">公告</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-6 text-foreground">
+            <div className="bg-gradient-to-r from-primary/10 to-secondary/10 p-6 rounded-lg">
+              <h3 className="text-xl font-bold mb-3 text-primary">新春快乐</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                新的一年，愿你闪闪发光，每天都有小确幸，开心最重要！
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold mb-3 text-primary">功能介绍</h3>
+              <div className="space-y-3 text-muted-foreground">
+                <ul className="space-y-3 list-none">
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary font-bold">•</span>
+                    <span><strong>亲戚计算器</strong>：再也不怕叫错亲戚，一键搞定复杂关系，拯救社恐星人</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary font-bold">•</span>
+                    <span><strong>话术生成</strong>：应对七大姑八大姨的神器，让你优雅化解尴尬场面</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary font-bold">•</span>
+                    <span><strong>红包账本</strong>：谁送多少一目了然，再也不怕算错账，记账也能很轻松</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary font-bold">•</span>
+                    <span><strong>抽签</strong>：抽个签，看看接下来会有什么好事等着你，说不定有惊喜</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-primary font-bold">•</span>
+                    <span><strong>一封匿名信</strong>：那些不敢当面说的话，这里帮你传达，情感表达新方式</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-secondary/10 to-primary/10 p-6 rounded-lg">
+              <p className="text-muted-foreground leading-relaxed text-center">
+                感谢使用，希望这些小工具能给你的春节增添乐趣！
+              </p>
+            </div>
+
+            <div className="border-t pt-4">
+              <div className="bg-primary/5 p-4 rounded-lg">
+                <p className="text-center font-bold text-primary text-lg">
+                  抖音号：love_youandme
+                </p>
+                <p className="text-center text-sm text-muted-foreground mt-2">
+                  欢迎留言反馈，你的建议很重要！
+                </p>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

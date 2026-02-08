@@ -12,6 +12,48 @@ import {
 function Email() {
   const [agreed, setAgreed] = useState(false);
   const [showAgreement, setShowAgreement] = useState(false);
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [hasSent, setHasSent] = useState(() => {
+    return localStorage.getItem('emailSent') === 'true';
+  });
+
+  const validateEmail = (value: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!value) {
+      setEmailError('');
+      return true;
+    }
+    if (!emailRegex.test(value)) {
+      setEmailError('请输入正确的邮箱格式');
+      return false;
+    }
+    setEmailError('');
+    return true;
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    validateEmail(value);
+  };
+
+  const handleSend = () => {
+    if (!agreed || hasSent) return;
+    
+    setHasSent(true);
+    localStorage.setItem('emailSent', 'true');
+    
+    alert('邮件已发送成功！');
+  };
+
+  const handleReset = () => {
+    setHasSent(false);
+    localStorage.removeItem('emailSent');
+    setEmail('');
+    setEmailError('');
+    setAgreed(false);
+  };
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] text-foreground p-4 sm:p-8 relative overflow-hidden">
@@ -41,19 +83,43 @@ function Email() {
             <div className="w-10 h-0.5 bg-gradient-to-l from-transparent to-secondary" />
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground font-serif">一封匿名信</h1>
-          <p className="text-muted-foreground mt-2">如果只有一封信 你会写给谁</p>
+          <p className="text-muted-foreground mt-2">如果<span className="text-primary font-bold text-lg drop-shadow-sm">只有一封信</span> 你会写给谁</p>
         </div>
 
         <div className="max-w-2xl mx-auto">
+          {hasSent && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6 animate-fade-in">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <svg className="w-5 h-5 text-yellow-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <p className="text-yellow-800 text-sm">您已经发送过一封匿名信，每个用户只能发送一次。</p>
+                </div>
+                <button
+                  onClick={handleReset}
+                  className="px-3 py-1.5 bg-yellow-100 hover:bg-yellow-200 text-yellow-800 text-sm rounded-lg transition-colors"
+                >
+                  重置
+                </button>
+              </div>
+            </div>
+          )}
+          
           <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm animate-fade-in mb-8">
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">收件人</label>
+                <label className="block text-sm font-medium mb-2">收件人邮箱</label>
                 <input 
-                  type="text" 
-                  className="w-full p-4 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
-                  placeholder="请输入你想写信的人"
+                  type="email" 
+                  value={email}
+                  onChange={handleEmailChange}
+                  className={`w-full p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 ${emailError ? 'border-red-500' : 'border-border'}`}
+                  placeholder="请输入收件人邮箱地址"
                 />
+                {emailError && (
+                  <p className="text-red-500 text-sm mt-1">{emailError}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">主题</label>
@@ -99,11 +165,21 @@ function Email() {
 
           <div className="text-center">
             <button 
-              disabled={!agreed}
-              className={`px-8 py-4 rounded-full font-bold transition-colors ${agreed ? 'bg-primary text-white hover:bg-primary/90' : 'bg-muted text-muted-foreground cursor-not-allowed'}`}
+              onClick={handleSend}
+              disabled={!agreed || hasSent}
+              className={`px-8 py-4 rounded-full font-bold transition-colors ${(!agreed || hasSent) ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-primary text-white hover:bg-primary/90'}`}
             >
-              发送
+              {hasSent ? '已发送' : '发送'}
             </button>
+            
+            {hasSent && (
+              <button 
+                onClick={handleReset}
+                className="ml-4 px-6 py-4 rounded-full font-bold bg-accent text-foreground hover:bg-accent/90 transition-colors"
+              >
+                重置
+              </button>
+            )}
           </div>
         </div>
 

@@ -4,11 +4,12 @@ import useLedgerStore from '@/hooks/useLedgerStore';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
 
 // 数字格式化函数，将大额数字转换为带单位的格式
-const formatNumber = (num: number): string => {
+const formatNumber = (num: number, showFull: boolean = false): string => {
+  if (showFull) {
+    return num.toString();
+  }
   if (num >= 10000) {
-    return (num / 10000).toFixed(1) + '万';
-  } else if (num >= 1000) {
-    return (num / 1000).toFixed(1) + '千';
+    return (num / 10000).toFixed(2) + '万';
   }
   return num.toString();
 };
@@ -30,6 +31,9 @@ function Ledger() {
   const [type, setType] = useState(RECORD_TYPE.INCOME);
   const [note, setNote] = useState('');
   const [time, setTime] = useState('');
+  const [showFullAmount, setShowFullAmount] = useState(false);
+  const [showFullAmountList, setShowFullAmountList] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; name: string } | null>(null);
 
   const handleAdd = () => {
     if (!name || !amount) return;
@@ -46,6 +50,21 @@ function Ledger() {
     setAmount('');
     setNote('');
     setTime('');
+  };
+
+  const handleDeleteClick = (id: string, name: string) => {
+    setDeleteConfirm({ id, name });
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteConfirm) {
+      deleteRecord(deleteConfirm.id);
+      setDeleteConfirm(null);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteConfirm(null);
   };
 
   const handleInitialAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,27 +125,43 @@ function Ledger() {
           </div>
 
           <div className="mb-8 p-6 bg-card rounded-xl border border-primary/20 cloud-pattern animate-fade-in">
-            <h2 className="text-2xl font-bold mb-4 text-primary font-serif">统计摘要</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-primary font-serif">统计摘要</h2>
+              <button
+                onClick={() => setShowFullAmount(!showFullAmount)}
+                className="flex items-center gap-2 px-3 py-1.5 bg-accent/50 rounded-lg hover:bg-accent transition-colors"
+              >
+                <svg className={`w-4 h-4 ${showFullAmount ? 'text-primary' : 'text-muted-foreground'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {showFullAmount ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 011.5 0m-1.5 0a3 3 0 00-1.5 0m-1.5 0a3 3 0 011.5 0m-1.5 0a3 3 0 00-1.5 0" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  )}
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7" />
+                </svg>
+                <span className="text-sm">{showFullAmount ? '隐藏完整' : '显示完整'}</span>
+              </button>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div className="p-3 bg-accent/30 rounded-lg">
                 <p className="text-sm text-muted-foreground">初始金额</p>
-                <p className="text-xl font-bold">¥{formatNumber(Number(initialAmount))}</p>
+                <p className="text-xl font-bold">¥{formatNumber(Number(initialAmount), showFullAmount)}</p>
               </div>
               <div className="p-3 bg-accent/30 rounded-lg">
                 <p className="text-sm text-muted-foreground">总收入</p>
-                <p className="text-xl font-bold text-green-600">¥{formatNumber(summary.totalIncome)}</p>
+                <p className="text-xl font-bold text-green-600">¥{formatNumber(summary.totalIncome, showFullAmount)}</p>
               </div>
               <div className="p-3 bg-accent/30 rounded-lg">
                 <p className="text-sm text-muted-foreground">总支出</p>
-                <p className="text-xl font-bold text-red-600">¥{formatNumber(summary.totalExpense)}</p>
+                <p className="text-xl font-bold text-red-600">¥{formatNumber(summary.totalExpense, showFullAmount)}</p>
               </div>
               <div className="p-3 bg-primary/10 rounded-lg">
                 <p className="text-sm text-muted-foreground">结余（含初始）</p>
-                <p className="text-xl font-bold text-primary">¥{formatNumber(summary.balance)}</p>
+                <p className="text-xl font-bold text-primary">¥{formatNumber(summary.balance, showFullAmount)}</p>
               </div>
               <div className="p-3 bg-accent/30 rounded-lg">
                 <p className="text-sm text-muted-foreground">盈亏</p>
-                <p className="text-xl font-bold">¥{formatNumber(summary.netBalance)}</p>
+                <p className="text-xl font-bold">¥{formatNumber(summary.netBalance, showFullAmount)}</p>
               </div>
               <div className="p-3 bg-accent/30 rounded-lg">
                 <p className="text-sm text-muted-foreground">记录数</p>
@@ -154,6 +189,7 @@ function Ledger() {
                     e.preventDefault();
                   }
                 }}
+                onWheel={(e) => e.currentTarget.blur()}
                 className="border border-border px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background"
                 placeholder="输入金额"
                 inputMode="decimal"
@@ -189,7 +225,23 @@ function Ledger() {
           </div>
 
           <div className="bg-card rounded-xl border border-border p-6 wave-pattern animate-fade-in">
-            <h2 className="text-2xl font-bold mb-4 font-serif text-foreground">记录列表</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold font-serif text-foreground">记录列表</h2>
+              <button
+                onClick={() => setShowFullAmountList(!showFullAmountList)}
+                className="flex items-center gap-2 px-3 py-1.5 bg-accent/50 rounded-lg hover:bg-accent transition-colors"
+              >
+                <svg className={`w-4 h-4 ${showFullAmountList ? 'text-primary' : 'text-muted-foreground'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {showFullAmountList ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 011.5 0m-1.5 0a3 3 0 00-1.5 0m-1.5 0a3 3 0 011.5 0m-1.5 0a3 3 0 00-1.5 0" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  )}
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7" />
+                </svg>
+                <span className="text-sm">{showFullAmountList ? '隐藏完整' : '显示完整'}</span>
+              </button>
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full border-collapse min-w-[640px]">
                 <thead>
@@ -207,7 +259,7 @@ function Ledger() {
                     <tr key={record.id} className="border-b border-border hover:bg-accent/20 transition-colors">
                       <td className="p-3 truncate max-w-[120px]">{record.name}</td>
                       <td className={`p-3 font-medium ${record.type === RECORD_TYPE.INCOME ? 'text-green-600' : 'text-red-600'} truncate max-w-[100px]`}>
-                        ¥{formatNumber(record.amount)}
+                        ¥{formatNumber(record.amount, showFullAmountList)}
                       </td>
                       <td className="p-3 truncate max-w-[80px]">{record.type}</td>
                       <td className="p-3 truncate max-w-[150px] flex items-center gap-2">
@@ -219,7 +271,7 @@ function Ledger() {
                       <td className="p-3 truncate max-w-[150px]">{record.note || '-'}</td>
                       <td className="p-3">
                         <button
-                          onClick={() => deleteRecord(record.id)}
+                          onClick={() => handleDeleteClick(record.id, record.name)}
                           className="bg-destructive text-destructive-foreground px-3 py-1 rounded-lg text-sm hover:bg-destructive/90 transition-colors"
                         >
                           删除
@@ -233,6 +285,32 @@ function Ledger() {
             {records.length === 0 && <p className="text-muted-foreground mt-4 text-center">暂无记录</p>}
           </div>
         </div>
+
+        {/* 删除确认弹窗 */}
+        {deleteConfirm && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-fade-in">
+            <div className="bg-card rounded-xl border border-border p-6 max-w-md w-full mx-4 animate-scale-in shadow-2xl">
+              <h3 className="text-xl font-bold mb-4 font-serif text-foreground">确认删除</h3>
+              <p className="text-muted-foreground mb-6">
+                确定要删除 <span className="font-bold text-foreground">{deleteConfirm.name}</span> 的记录吗？
+              </p>
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={handleDeleteCancel}
+                  className="px-4 py-2 rounded-lg border border-border hover:bg-accent transition-colors"
+                >
+                  取消
+                </button>
+                <button
+                  onClick={handleDeleteConfirm}
+                  className="px-4 py-2 rounded-lg bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-colors"
+                >
+                  确认删除
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* 底部区域 */}
         <div className="mt-8 pb-4 animate-fade-in">
