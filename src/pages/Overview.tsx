@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
 import { Users, MessageSquare, Wallet, Sparkles, Mail } from 'lucide-react';
+import { useSoundEffects } from '@/hooks/useSoundEffects';
 
 const cards = [
   {
@@ -46,6 +47,8 @@ const cards = [
 ];
 
 function Overview() {
+  const sound = useSoundEffects();
+
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-8 relative overflow-hidden">
       {/* 新春装饰 */}
@@ -79,6 +82,7 @@ function Overview() {
               <Link
                 key={card.to}
                 to={card.to}
+                onClick={() => sound.playNavigate()}
                 className={`group relative p-6 sm:p-8 rounded-xl border border-border bg-card ${card.pattern} overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2 hover:border-primary/30 animate-slide-up`}
               >
                 {/* 悬停光效 */}
