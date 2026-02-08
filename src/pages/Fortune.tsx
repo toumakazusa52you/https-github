@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
-import { useSoundEffects } from '@/hooks/useSoundEffects';
 
 const fortuneData = [
   { type: "上上签", title: "天赐良缘", content: "喜鹊登枝报佳音，天赐良缘福满门。家和万事皆如意，喜气盈庭庆新春。" },
@@ -20,18 +19,15 @@ function Fortune() {
   const [fortune, setFortune] = useState(fortuneData[0]);
   const [isDrawing, setIsDrawing] = useState(false);
   const [hasDrawn, setHasDrawn] = useState(false);
-  const sound = useSoundEffects();
 
   const drawFortune = () => {
     setIsDrawing(true);
-    sound.playShake();
 
     setTimeout(() => {
       const randomIndex = Math.floor(Math.random() * fortuneData.length);
       setFortune(fortuneData[randomIndex]);
       setIsDrawing(false);
       setHasDrawn(true);
-      sound.playReveal();
     }, 800);
   };
 
@@ -104,7 +100,6 @@ function Fortune() {
             {hasDrawn && (
               <button
                 onClick={() => {
-                  sound.playClick();
                   setHasDrawn(false);
                 }}
                 className="px-8 py-4 bg-card text-foreground border border-border rounded-xl hover:bg-accent transition-all duration-200 font-medium text-lg"

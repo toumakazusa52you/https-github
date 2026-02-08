@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
-import { useSoundEffects } from '@/hooks/useSoundEffects';
 
 const phrasesData: Record<string, Record<string, string[]>> = {
   "催婚": {
@@ -167,10 +166,8 @@ function Dialog() {
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
   const [showCopyNotification, setShowCopyNotification] = useState(false);
   const [isAttitudeVisible, setIsAttitudeVisible] = useState(false);
-  const sound = useSoundEffects();
 
   const handleCategorySelect = (category: string) => {
-    sound.playClick();
     setSelectedCategory(category);
     setSelectedAttitude(null);
     setIsAttitudeVisible(true);
@@ -178,7 +175,6 @@ function Dialog() {
   };
 
   const handleAttitudeSelect = (attitude: string) => {
-    sound.playClick();
     setSelectedAttitude(attitude);
     setCurrentPhraseIndex(0);
   };
@@ -200,7 +196,6 @@ function Dialog() {
 
   const changePhrase = () => {
     if (selectedCategory && selectedAttitude) {
-      sound.playClick();
       const phrases = getCurrentPhraseList();
       if (phrases.length > 1) {
         let newIndex;
@@ -215,7 +210,6 @@ function Dialog() {
   const copyToClipboard = () => {
     const phrase = getCurrentPhrase();
     navigator.clipboard.writeText(phrase).then(() => {
-      sound.playSuccess();
       setShowCopyNotification(true);
       setTimeout(() => setShowCopyNotification(false), 2000);
     });

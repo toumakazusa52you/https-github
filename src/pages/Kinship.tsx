@@ -2,22 +2,16 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { KinshipLogic } from '@/utils/kinshipLogic';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
-import { useSoundEffects } from '@/hooks/useSoundEffects';
 
 function Kinship() {
   const [input, setInput] = useState('');
   const [result, setResult] = useState('');
-  const sound = useSoundEffects();
 
   const handleCalculate = () => {
-    sound.playClick();
     const logic = new KinshipLogic();
     const chain = input.split('的').filter(word => word.trim() !== '');
     const relationship = logic.getRelationship(chain);
     setResult(relationship);
-    if (relationship) {
-      sound.playSuccess();
-    }
   };
 
   return (
