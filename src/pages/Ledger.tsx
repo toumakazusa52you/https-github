@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import useLedgerStore from '@/hooks/useLedgerStore';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
+import { useSoundEffects } from '@/hooks/useSoundEffects';
 
 // 数字格式化函数，将大额数字转换为带单位的格式
 const formatNumber = (num: number): string => {
@@ -30,10 +31,12 @@ function Ledger() {
   const [type, setType] = useState(RECORD_TYPE.INCOME);
   const [note, setNote] = useState('');
   const [time, setTime] = useState('');
+  const sound = useSoundEffects();
 
   const handleAdd = () => {
     if (!name || !amount) return;
 
+    sound.playCoin();
     addRecord({
       amount: Number(amount),
       type: type,
@@ -217,14 +220,17 @@ function Ledger() {
                         {record.userProvidedTime ? record.time.toLocaleString() : '-'}
                       </td>
                       <td className="p-3 truncate max-w-[150px]">{record.note || '-'}</td>
-                      <td className="p-3">
-                        <button
-                          onClick={() => deleteRecord(record.id)}
-                          className="bg-destructive text-destructive-foreground px-3 py-1 rounded-lg text-sm hover:bg-destructive/90 transition-colors"
-                        >
-                          删除
-                        </button>
-                      </td>
+                        <td className="p-3">
+                          <button
+                            onClick={() => {
+                              sound.playDelete();
+                              deleteRecord(record.id);
+                            }}
+                            className="bg-destructive text-destructive-foreground px-3 py-1 rounded-lg text-sm hover:bg-destructive/90 transition-colors"
+                          >
+                            删除
+                          </button>
+                        </td>
                     </tr>
                   ))}
                 </tbody>
