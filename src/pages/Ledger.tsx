@@ -35,30 +35,35 @@ function Ledger() {
   const [showFullAmountList, setShowFullAmountList] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; name: string } | null>(null);
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!name || !amount) return;
 
-    addRecord({
-      amount: Number(amount),
-      type: type,
-      name: name,
-      note: note,
-      ...(time && { time: new Date(time) })
-    });
+    try {
+      await addRecord({
+        amount: Number(amount),
+        type: type,
+        name: name,
+        note: note,
+        ...(time && { time: new Date(time) })
+      });
 
-    setName('');
-    setAmount('');
-    setNote('');
-    setTime('');
+      setName('');
+      setAmount('');
+      setNote('');
+      setTime('');
+    } catch (error) {
+      console.error('添加记录失败:', error);
+      alert('添加记录失败，请重试');
+    }
   };
 
   const handleDeleteClick = (id: string, name: string) => {
     setDeleteConfirm({ id, name });
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (deleteConfirm) {
-      deleteRecord(deleteConfirm.id);
+      await deleteRecord(deleteConfirm.id);
       setDeleteConfirm(null);
     }
   };
@@ -67,8 +72,8 @@ function Ledger() {
     setDeleteConfirm(null);
   };
 
-  const handleInitialAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInitialAmount(e.target.value);
+  const handleInitialAmountChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    await setInitialAmount(e.target.value);
   };
 
   if (isLoading) {
@@ -119,6 +124,7 @@ function Ledger() {
               type="number"
               value={initialAmount}
               onChange={handleInitialAmountChange}
+              onWheel={(e) => e.currentTarget.blur()}
               className="border border-border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background"
               placeholder="输入初始金额"
             />

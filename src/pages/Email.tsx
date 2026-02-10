@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
 import { useState } from 'react';
+import { mockCloudFunction } from '@/lib/api';
 import {
   Dialog,
   DialogContent,
@@ -13,7 +14,9 @@ function Email() {
   const [agreed, setAgreed] = useState(false);
   const [showAgreement, setShowAgreement] = useState(false);
   const [email, setEmail] = useState('');
+  const [subject, setSubject] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [isSending, setIsSending] = useState(false);
   const [hasSent, setHasSent] = useState(() => {
     return localStorage.getItem('emailSent') === 'true';
   });
@@ -38,19 +41,40 @@ function Email() {
     validateEmail(value);
   };
 
-  const handleSend = () => {
-    if (!agreed || hasSent) return;
+  const handleSend = async () => {
+    if (!agreed || hasSent || !email || emailError) return;
     
-    setHasSent(true);
-    localStorage.setItem('emailSent', 'true');
+    setIsSending(true);
     
-    alert('邮件已发送成功！');
+    try {
+      // 调用发送邮件云函数
+      const result = await mockCloudFunction('sendEmail', { 
+        email: email, 
+        subject: subject || '一封匿名信' 
+      });
+      
+      if (result.success) {
+        setHasSent(true);
+        localStorage.setItem('emailSent', 'true');
+        localStorage.setItem('emailData', JSON.stringify(result.data));
+        alert('邮件已发送成功！');
+      } else {
+        alert('邮件发送失败：' + result.error);
+      }
+    } catch (error) {
+      console.error('发送邮件失败:', error);
+      alert('邮件发送失败，请稍后重试');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const handleReset = () => {
     setHasSent(false);
     localStorage.removeItem('emailSent');
+    localStorage.removeItem('emailData');
     setEmail('');
+    setSubject('');
     setEmailError('');
     setAgreed(false);
   };
@@ -125,6 +149,8 @@ function Email() {
                 <label className="block text-sm font-medium mb-2">主题</label>
                 <input 
                   type="text" 
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
                   className="w-full p-4 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
                   placeholder="信件主题"
                 />
@@ -166,10 +192,10 @@ function Email() {
           <div className="text-center">
             <button 
               onClick={handleSend}
-              disabled={!agreed || hasSent}
-              className={`px-8 py-4 rounded-full font-bold transition-colors ${(!agreed || hasSent) ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-primary text-white hover:bg-primary/90'}`}
+              disabled={!agreed || hasSent || isSending || !email || emailError}
+              className={`px-8 py-4 rounded-full font-bold transition-colors ${(!agreed || hasSent || !email || emailError) ? 'bg-muted text-muted-foreground cursor-not-allowed' : 'bg-primary text-white hover:bg-primary/90'}`}
             >
-              {hasSent ? '已发送' : '发送'}
+              {isSending ? '发送中...' : (hasSent ? '已发送' : '发送')}
             </button>
             
             {hasSent && (

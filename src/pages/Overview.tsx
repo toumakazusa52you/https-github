@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
-import { Users, MessageSquare, Wallet, Sparkles, Mail } from 'lucide-react';
+import { Users, MessageSquare, Wallet, Sparkles, Mail, User, LogOut } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import {
   Dialog,
@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 const cards = [
   {
@@ -53,11 +54,30 @@ const cards = [
 ];
 
 function Overview() {
+  const navigate = useNavigate();
+  
   // 首次进入网站时显示公告，使用sessionStorage确保同一会话中只显示一次
   const [showAnnouncement, setShowAnnouncement] = useState(() => {
     const hasSeenAnnouncement = sessionStorage.getItem('hasSeenAnnouncement');
     return !hasSeenAnnouncement;
   });
+
+  // 登录状态管理
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState<any>(null);
+
+  // 检查登录状态
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const loggedIn = localStorage.getItem('isLoggedIn');
+      const userData = localStorage.getItem('userInfo');
+      if (loggedIn && userData) {
+        setIsLoggedIn(true);
+        setUserInfo(JSON.parse(userData));
+      }
+    };
+    checkLoginStatus();
+  }, []);
 
   // 标记公告已查看
   useEffect(() => {
@@ -65,6 +85,21 @@ function Overview() {
       sessionStorage.setItem('hasSeenAnnouncement', 'true');
     }
   }, [showAnnouncement]);
+
+  // 登出函数
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userInfo');
+    setIsLoggedIn(false);
+    setUserInfo(null);
+    // 可以选择跳转到登录页面
+    // navigate('/login');
+  };
+
+  // 跳转到登录页面
+  const handleLogin = () => {
+    navigate('/login');
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-8 relative overflow-hidden">
@@ -90,21 +125,50 @@ function Overview() {
           </h1>
           <p className="text-muted-foreground mt-3 text-lg">实用工具，助您新春无忧</p>
           
-          {/* 公告按钮 */}
-          <button
-            onClick={() => {
-              setShowAnnouncement(true);
-            }}
-            className="absolute top-0 right-0 px-4 py-2 bg-transparent text-black rounded-2xl hover:bg-black/10 transition-all duration-200 font-medium text-sm hover:shadow-lg antialiased subpixel-antialiased"
-            style={{
-              WebkitFontSmoothing: 'antialiased',
-              MozOsxFontSmoothing: 'grayscale',
-              boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, 1)'
-            }}
-            title="查看公告"
-          >
-            公告
-          </button>
+          {/* 登录状态和公告按钮 */}
+          <div className="absolute top-0 right-0 flex items-center gap-3">
+            {/* 登录状态显示 */}
+            {isLoggedIn ? (
+              <div className="flex items-center gap-2 bg-primary/5 px-3 py-1 rounded-full">
+                <User className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium">{userInfo?.nickname || '用户'}</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="h-6 w-6 p-0 text-muted-foreground hover:text-primary"
+                >
+                  <LogOut className="w-4 h-4" />
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLogin}
+                className="bg-primary/5 hover:bg-primary/10"
+              >
+                <User className="w-4 h-4 mr-1" />
+                登录
+              </Button>
+            )}
+            
+            {/* 公告按钮 */}
+            <button
+              onClick={() => {
+                setShowAnnouncement(true);
+              }}
+              className="px-4 py-2 bg-transparent text-black rounded-2xl hover:bg-black/10 transition-all duration-200 font-medium text-sm hover:shadow-lg antialiased subpixel-antialiased"
+              style={{
+                WebkitFontSmoothing: 'antialiased',
+                MozOsxFontSmoothing: 'grayscale',
+                boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, 1)'
+              }}
+              title="查看公告"
+            >
+              公告
+            </button>
+          </div>
         </div>
 
         {/* 卡片网格 */}

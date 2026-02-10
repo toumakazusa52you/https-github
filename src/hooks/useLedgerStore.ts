@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { mockCloudFunction } from '@/lib/api';
 
 export interface LedgerRecord {
   id: string;
@@ -24,9 +25,12 @@ const useLedgerStore = () => {
   const [initialAmount, setInitialAmount] = useState(0);
 
   useEffect(() => {
-    const loadFromStorage = () => {
+    const loadData = async () => {
       try {
+        // 优先从本地存储加载数据
         const savedData = localStorage.getItem(STORAGE_KEY);
+        const savedInitialAmount = localStorage.getItem(INITIAL_AMOUNT_KEY);
+        
         if (savedData) {
           const parsedData = JSON.parse(savedData);
           const recordsWithDate = parsedData.map((record: any) => ({
@@ -35,21 +39,51 @@ const useLedgerStore = () => {
             userProvidedTime: record.userProvidedTime || false
           }));
           setRecords(recordsWithDate);
+          console.log('从本地存储加载数据:', recordsWithDate);
         }
 
-        const savedInitialAmount = localStorage.getItem(INITIAL_AMOUNT_KEY);
         if (savedInitialAmount) {
           setInitialAmount(Number(savedInitialAmount));
+          console.log('从本地存储加载初始金额:', savedInitialAmount);
+        }
+        
+        // 尝试从云函数加载数据（异步，不阻塞）
+        try {
+          const result = await mockCloudFunction('ledger', {
+            action: 'getRecords'
+          });
+          
+          if (result.success && result.data.records.length > 0) {
+            // 只有当云函数返回的数据不为空时，才更新本地数据
+            const recordsWithDate = result.data.records.map((record: any) => ({
+              ...record,
+              id: record._id || record.id,
+              time: new Date(record.time),
+              userProvidedTime: record.userProvidedTime || false
+            }));
+            setRecords(recordsWithDate);
+            setInitialAmount(result.data.initialAmount || 0);
+            
+            // 同时保存到本地存储作为备份
+            saveToStorage(recordsWithDate);
+            localStorage.setItem(INITIAL_AMOUNT_KEY, String(result.data.initialAmount || 0));
+            console.log('从云函数加载数据:', recordsWithDate);
+          }
+        } catch (cloudError) {
+          console.warn('云函数加载失败，使用本地数据:', cloudError);
         }
       } catch (error) {
         console.error('加载数据失败:', error);
+        // 加载失败，清空状态
         setRecords([]);
+        setInitialAmount(0);
       } finally {
         setIsLoading(false);
+        console.log('数据加载完成');
       }
     };
 
-    loadFromStorage();
+    loadData();
   }, []);
 
   const saveToStorage = useCallback((newRecords: LedgerRecord[]) => {
@@ -64,34 +98,98 @@ const useLedgerStore = () => {
     }
   }, []);
 
-  const addRecord = useCallback((recordData: {
+  const addRecord = useCallback(async (recordData: {
     amount: number;
     type: string;
     name: string;
     note?: string;
     time?: Date;
   }) => {
-    const newRecord: LedgerRecord = {
-      id: Date.now().toString(36) + Math.random().toString(36).substr(2),
-      amount: Number(recordData.amount),
-      type: recordData.type,
-      name: recordData.name.trim(),
-      time: new Date(recordData.time || Date.now()),
-      note: recordData.note || '',
-      userProvidedTime: !!recordData.time
-    };
-
-    const newRecords = [...records, newRecord];
-    setRecords(newRecords);
-    saveToStorage(newRecords);
-
-    return newRecord;
+    try {
+      console.log('开始添加记录:', recordData);
+      
+      // 验证数据
+      if (!recordData.name || !recordData.amount) {
+        console.error('添加记录失败: 缺少必要字段');
+        throw new Error('缺少必要字段');
+      }
+      
+      // 准备记录数据
+      const recordToAdd = {
+        amount: Number(recordData.amount),
+        type: recordData.type,
+        name: recordData.name.trim(),
+        note: recordData.note || '',
+        time: recordData.time || new Date(),
+        userProvidedTime: !!recordData.time
+      };
+      
+      console.log('准备添加的记录:', recordToAdd);
+      
+      // 先本地添加，确保用户体验
+      const newRecord: LedgerRecord = {
+        id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+        ...recordToAdd
+      };
+      
+      const newRecords = [...records, newRecord];
+      console.log('新记录列表:', newRecords);
+      
+      // 更新状态
+      setRecords(newRecords);
+      console.log('状态更新完成');
+      
+      // 保存到本地存储
+      saveToStorage(newRecords);
+      console.log('本地存储完成');
+      
+      // 尝试调用云函数添加记录（异步，不阻塞）
+      try {
+        await mockCloudFunction('ledger', {
+          action: 'addRecord',
+          data: {
+            ...recordToAdd,
+            time: recordToAdd.time.toISOString()
+          }
+        });
+        console.log('云函数添加成功');
+      } catch (cloudError) {
+        console.warn('云函数添加失败，使用本地记录:', cloudError);
+      }
+      
+      console.log('添加记录完成:', newRecord);
+      return newRecord;
+    } catch (error) {
+      console.error('添加记录失败:', error);
+      throw error;
+    }
   }, [records, saveToStorage]);
 
-  const deleteRecord = useCallback((recordId: string) => {
-    const newRecords = records.filter(record => record.id !== recordId);
-    setRecords(newRecords);
-    saveToStorage(newRecords);
+  const deleteRecord = useCallback(async (recordId: string) => {
+    try {
+      // 调用云函数删除记录
+      const result = await mockCloudFunction('ledger', {
+        action: 'deleteRecord',
+        data: { id: recordId }
+      });
+
+      if (result.success) {
+        const newRecords = records.filter(record => record.id !== recordId);
+        setRecords(newRecords);
+        saveToStorage(newRecords);
+      } else {
+        // 云函数删除失败，本地删除
+        const newRecords = records.filter(record => record.id !== recordId);
+        setRecords(newRecords);
+        saveToStorage(newRecords);
+      }
+    } catch (error) {
+      console.error('删除记录失败:', error);
+      // 出错时本地删除
+      const newRecords = records.filter(record => record.id !== recordId);
+      setRecords(newRecords);
+      saveToStorage(newRecords);
+    }
   }, [records, saveToStorage]);
 
   const getSummary = useCallback(() => {
@@ -159,10 +257,29 @@ const useLedgerStore = () => {
     localStorage.removeItem(STORAGE_KEY);
   }, []);
 
-  const setInitialAmountValue = useCallback((amount: number | string) => {
+  const setInitialAmountValue = useCallback(async (amount: number | string) => {
     const newAmount = Number(amount);
-    setInitialAmount(newAmount);
-    localStorage.setItem(INITIAL_AMOUNT_KEY, newAmount.toString());
+    try {
+      // 调用云函数设置初始金额
+      const result = await mockCloudFunction('ledger', {
+        action: 'setInitialAmount',
+        data: { amount: newAmount }
+      });
+
+      if (result.success) {
+        setInitialAmount(result.data.initialAmount || newAmount);
+        localStorage.setItem(INITIAL_AMOUNT_KEY, String(result.data.initialAmount || newAmount));
+      } else {
+        // 云函数设置失败，本地设置
+        setInitialAmount(newAmount);
+        localStorage.setItem(INITIAL_AMOUNT_KEY, newAmount.toString());
+      }
+    } catch (error) {
+      console.error('设置初始金额失败:', error);
+      // 出错时本地设置
+      setInitialAmount(newAmount);
+      localStorage.setItem(INITIAL_AMOUNT_KEY, newAmount.toString());
+    }
   }, []);
 
   const exportData = useCallback(() => {

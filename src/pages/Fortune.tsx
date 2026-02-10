@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CloudDecoration } from '@/components/decorations/CloudDecoration';
+import { mockCloudFunction } from '@/lib/api';
 
 const fortuneData = [
   { type: "上上签", title: "脱单有望", content: "桃花运爆棚，脱单有望！新的一年，爱情事业双丰收，单身狗要翻身啦！" },
@@ -16,25 +17,41 @@ const fortuneData = [
 ];
 
 function Fortune() {
-  const [fortune, setFortune] = useState(fortuneData[0]);
+  const [fortune, setFortune] = useState<any>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [hasDrawn, setHasDrawn] = useState(() => {
     return localStorage.getItem('fortuneDrawn') === 'true';
   });
 
-  const drawFortune = () => {
+  const drawFortune = async () => {
     if (hasDrawn) return;
     
     setIsDrawing(true);
 
-    setTimeout(() => {
-      const randomIndex = Math.floor(Math.random() * fortuneData.length);
-      setFortune(fortuneData[randomIndex]);
+    try {
+      // 调用抽签云函数
+      const result = await mockCloudFunction('drawFortune', {});
+      
+      if (result.success) {
+        setFortune(result.data);
+        setHasDrawn(true);
+        localStorage.setItem('fortuneDrawn', 'true');
+        localStorage.setItem('fortuneData', JSON.stringify(result.data));
+      }
+    } catch (error) {
+      console.error('抽签失败:', error);
+    } finally {
       setIsDrawing(false);
-      setHasDrawn(true);
-      localStorage.setItem('fortuneDrawn', 'true');
-    }, 800);
+    }
   };
+
+  // 初始化时检查是否有保存的抽签结果
+  if (hasDrawn && !fortune) {
+    const savedFortune = localStorage.getItem('fortuneData');
+    if (savedFortune) {
+      setFortune(JSON.parse(savedFortune));
+    }
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground p-8 relative overflow-hidden">
@@ -69,14 +86,13 @@ function Fortune() {
 
         <div className="max-w-2xl mx-auto">
           <div className={`mb-8 p-8 rounded-xl border border-border bg-gradient-to-br from-card via-card to-accent/20 cloud-pattern animate-fade-in ${isDrawing ? 'animate-shake' : ''}`}>
-            {hasDrawn ? (
+            {hasDrawn && fortune ? (
               <div className="text-center">
                 <div className="inline-block mb-4">
-                  <span className={`text-3xl font-bold font-serif ${fortune.type === '上上签' ? 'text-primary' : 'text-secondary'}`}>
-                    【{fortune.type}】
+                  <span className={`text-3xl font-bold font-serif ${fortune.type === 'luck' ? 'text-primary' : 'text-secondary'}`}>
+                    【{fortune.type === 'luck' ? '好运签' : '中性签'}】
                   </span>
                 </div>
-                <h3 className="text-2xl font-bold mb-4 font-serif text-foreground">{fortune.title}</h3>
                 <div className="bg-accent/30 p-6 rounded-lg border border-border">
                   <p className="text-lg whitespace-pre-line leading-relaxed text-foreground">{fortune.content}</p>
                 </div>
